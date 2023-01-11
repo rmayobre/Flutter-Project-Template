@@ -1,0 +1,19 @@
+name: repositories
+description: A collection of repositories to be used with Pages package.
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  firebase_auth: ^4.2.5
+  flutter:
+    sdk: flutter
+  framework:
+    path: ../framework
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0

@@ -1,0 +1,29 @@
+name: template
+description: A flutter template project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  framework:
+    path: packages/framework
+  pages:
+    path: packages/pages
+  repositories:
+    path: packages/repositories
+  toolbox:
+    path: packages/toolbox
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
