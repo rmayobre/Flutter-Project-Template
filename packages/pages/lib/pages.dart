@@ -11,14 +11,12 @@ final List<PageDelegate> pageRegistry = [
     name: HomePage.name,
     path: HomePage.path,
     builder: (context) => const HomePage(title: 'Flutter Demo Home Page'),
-    registryBuilder: (context) => const RepoRegistry(),
     nestedPages: []
   ),
   SinglePage(
       name: LoginPage.name,
       path: LoginPage.path,
       builder: (context) => LoginPage(),
-      registryBuilder: (context) => const RepoRegistry(),
       nestedPages: []
   ),
 ];

@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:framework/src/logger/logger.dart';
-import 'package:framework/src/repository/registry.dart';
 import 'package:framework/src/storage/cache.dart';
 
 /// A scope that represents the available resources within a Page.
@@ -12,7 +11,6 @@ class PageScope extends InheritedWidget {
     required this.logger,
     required this.pathParams,
     required this.queryParams,
-    required this.registry,
     required super.child,
   });
   
@@ -26,9 +24,6 @@ class PageScope extends InheritedWidget {
 
   /// Page's logging interface.
   final Logger logger;
-
-  /// Registry of repositories this page will use to fetch data.
-  final RepoRegistry registry;
 
   /// Required parameters of the page.
   final Map<String, String> pathParams;

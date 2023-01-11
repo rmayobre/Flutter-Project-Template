@@ -6,8 +6,11 @@ import 'package:framework/src/repository/repository.dart';
 import 'package:framework/src/repository/state_listenable.dart';
 import 'package:framework/src/repository/state_mutable.dart';
 
+import 'authenticator.dart';
+
 /// An object that helps update the authenticated status of the user.
-abstract class AuthenticationRepository implements StreamRepository<Session?>,
+abstract class AuthenticationRepository implements Authenticator,
+    StreamRepository<Session?>,
     StatefulRepository<Session> {
 
   factory AuthenticationRepository.offline({int authDelay = 0}) {
@@ -18,14 +21,6 @@ abstract class AuthenticationRepository implements StreamRepository<Session?>,
         )
     );
   }
-
-  /// Log into session.
-  ///
-  /// Throws [AuthenticationException] whenever authentication failed.
-  Future<Session?> login({
-    required String email,
-    required String password
-  });
 }
 
 class _OfflineAuthenticationRepository implements AuthenticationRepository {
@@ -65,10 +60,18 @@ class _OfflineAuthenticationRepository implements AuthenticationRepository {
 
   @override
   Future close() async {
+    return Future.delayed(Duration(seconds: authDelay), () async {
+      state.empty();
+      _controller.add(null);
+      await _controller.close();
+    });
+  }
+
+  @override
+  Future logout() async {
     return Future.delayed(Duration(seconds: authDelay), () {
       state.empty();
       _controller.add(null);
-      _controller.close();
     });
   }
 }

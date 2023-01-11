@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                context.app.authRepo.login(
+                context.app.authenticator.login(
                   email: _emailNotifier.value,
                   password: _passwordNotifier.value,
                 ).then((value) => context.to(HomePage.name));

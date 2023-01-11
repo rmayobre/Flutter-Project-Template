@@ -117,7 +117,6 @@ extension on SinglePage {
       cache: Cache(),
       pathParams: state.params,
       queryParams: state.queryParams,
-      registry: registryBuilder(context),
       logger: Logger(pageTag: name, console: context.app.console),
       child: pageWidget,
     );
@@ -161,7 +160,6 @@ extension on MultiPage {
       cache: Cache(),
       pathParams: state.params,
       queryParams: state.queryParams,
-      registry: registryBuilder(context),
       logger: Logger(pageTag: name, console: context.app.console),
       child: pageWidget,
     );
@@ -192,7 +190,6 @@ extension on ErrorPage {
       cache: Cache(),
       pathParams: state.params,
       queryParams: state.queryParams,
-      registry: registryBuilder(context),
       logger: Logger(pageTag: name, console: context.app.console),
       child: pageWidget,
     );

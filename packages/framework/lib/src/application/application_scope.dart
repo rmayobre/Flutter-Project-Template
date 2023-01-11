@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framework/routing.dart';
 import 'package:framework/src/analytics/analytics.dart';
-import 'package:framework/src/authentication/authentication_repository.dart';
+import 'package:framework/src/authentication/authenticator.dart';
 import 'package:framework/src/logger/log_console.dart';
 import 'package:framework/src/storage/persistent_cache.dart';
 
@@ -15,7 +15,7 @@ class ApplicationScope extends InheritedWidget {
   const ApplicationScope({
     super.key,
     required this.analytics,
-    required this.authRepo,
+    required this.authenticator,
     required this.cache,
     required this.console,
     required this.persistent,
@@ -29,7 +29,7 @@ class ApplicationScope extends InheritedWidget {
 
   final Analytics analytics;
 
-  final AuthenticationRepository authRepo;
+  final Authenticator authenticator;
 
   final Cache cache;
 

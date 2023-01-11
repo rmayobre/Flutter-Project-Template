@@ -40,6 +40,9 @@ class FirebaseAuthRepository implements AuthenticationRepository {
   }
 
   @override
+  Future logout() => _auth.signOut();
+
+  @override
   Future close() async {
     await _auth.signOut();
     _controller.close();

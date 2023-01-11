@@ -13,7 +13,7 @@ void runFirebaseApp() {
         analytics: ToolboxAnalytics(),
         authRepo: authenticationRepository,
         cache: Cache(),
-        reporter: ToolboxConsole(),
+        console: ToolboxConsole(),
         pages: pageRegistry,
         persistent: ToolboxPersistentCache(),
         routeHandler: ToolboxRouteHandler.go(
@@ -23,6 +23,11 @@ void runFirebaseApp() {
           pages: pageRegistry,
         ),
         theme: ThemeData(primarySwatch: Colors.blue,),
+        registry: RepoRegistry.from(
+            repos: {
+              Authenticator.repoKey : authenticationRepository,
+            }
+        ),
       )
   );
 }
@@ -34,7 +39,7 @@ void runOfflineApp() {
         analytics: Analytics.offline(),
         authRepo: authenticationRepository,
         cache: Cache(),
-        reporter: ToolboxConsole(),
+        console: ToolboxConsole(),
         pages: pageRegistry,
         persistent: ToolboxPersistentCache(),
         routeHandler: ToolboxRouteHandler.go(
@@ -44,6 +49,11 @@ void runOfflineApp() {
           pages: pageRegistry,
         ),
         theme: ThemeData(primarySwatch: Colors.blue,),
+        registry: RepoRegistry.from(
+            repos: {
+              Authenticator.repoKey : authenticationRepository,
+            }
+        ),
       )
   );
 }

@@ -2,6 +2,8 @@ import 'state_listenable.dart';
 
 abstract class Repository {
 
+  /// Used to help clean up or close pending connections to a [Repository]
+  /// before the application shuts down.
   Future close();
 }
 
