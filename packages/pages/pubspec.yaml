@@ -11,8 +11,6 @@ dependencies:
     sdk: flutter
   framework:
     path: ../framework
-  repositories:
-    path: ../repositories
   widgets:
     path: ../widgets
 
