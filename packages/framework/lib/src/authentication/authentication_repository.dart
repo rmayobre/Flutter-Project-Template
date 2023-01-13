@@ -13,11 +13,21 @@ abstract class AuthenticationRepository implements Authenticator,
     StreamRepository<Session?>,
     StatefulRepository<Session> {
 
-  factory AuthenticationRepository.offline({int authDelay = 0}) {
+  factory AuthenticationRepository.offline({
+    int authDelay = 0,
+    String? sessionId,
+  }) {
+    Session? session;
+    StateType type = StateType.empty;
+    if (sessionId != null) {
+      session = Session(id: sessionId);
+      type = StateType.loaded;
+    }
     return _OfflineAuthenticationRepository(
         authDelay: authDelay,
         state: StateNotifier(
-          initialState: StateType.empty,
+          initialState: type,
+          value: session,
         )
     );
   }
