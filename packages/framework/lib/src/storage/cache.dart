@@ -3,7 +3,7 @@ import 'storage.dart';
 /// A wrapper for a [Map] object that will map objects based on type.
 abstract class Cache implements Storage {
 
-  factory Cache({Map<String, Object>? map}) => _Cache(map ?? const {});
+  factory Cache({Map<String, Object>? map}) => _Cache(map ?? {});
 
   /// Write to storage.
   void write<T extends Object>({required String key, required T value});

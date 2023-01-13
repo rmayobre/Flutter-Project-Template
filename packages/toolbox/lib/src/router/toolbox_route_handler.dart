@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -20,7 +19,6 @@ abstract class ToolboxRouteHandler implements RouteHandler {
     required List<PageDelegate> pages,
   }) {
     final GlobalKey<NavigatorState> rootKey = GlobalKey();
-
     return _GoRouteHandler(
       config: GoRouter(
         navigatorKey: rootKey,
@@ -115,6 +113,7 @@ extension on SinglePage {
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
       cache: Cache(),
+      name: name,
       pathParams: state.params,
       queryParams: state.queryParams,
       logger: Logger(pageTag: name, console: context.app.console),
@@ -128,10 +127,11 @@ extension on MultiPage {
   ShellRoute toShellRoute(GlobalKey<NavigatorState> rootKey) {
     final GlobalKey<NavigatorState> shellKey = GlobalKey();
 
+    // TODO combine subPages with nested pages.
     return ShellRoute(
       navigatorKey: shellKey,
       pageBuilder: (context, state, child) => toPage(context, state, child),
-      routes: nestedPages.map((delegate) => delegate
+      routes: subPages.map((delegate) => delegate
           .toRoute(rootKey, shellKey))
           .toList(growable: false),
     );
@@ -140,7 +140,7 @@ extension on MultiPage {
   Page<dynamic> toPage(BuildContext context, GoRouterState state, Widget child) {
     switch(type) {
       case PageType.auto:
-        if (Platform.isIOS || Platform.isMacOS) {
+        if (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS) {
           return CupertinoPage(child: toPageScope(context, state, child));
         }
         return MaterialPage(child: toPageScope(context, state, child));
@@ -154,13 +154,14 @@ extension on MultiPage {
   }
 
   Widget toPageScope(BuildContext context, GoRouterState state, Widget child) {
+    var pageName = state.name ?? "unknown-page";
     var pageWidget = builder(context, child);
-    context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
       cache: Cache(),
+      name: pageName,
       pathParams: state.params,
       queryParams: state.queryParams,
-      logger: Logger(pageTag: name, console: context.app.console),
+      logger: Logger(pageTag: pageName, console: context.app.console),
       child: pageWidget,
     );
   }
@@ -188,6 +189,7 @@ extension on ErrorPage {
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
       cache: Cache(),
+      name: name,
       pathParams: state.params,
       queryParams: state.queryParams,
       logger: Logger(pageTag: name, console: context.app.console),

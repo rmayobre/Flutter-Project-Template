@@ -1,53 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:framework/page.dart';
+import 'package:pages/src/account/account_page.dart';
+import 'package:pages/src/search/search_page.dart';
+import 'package:pages/src/settings/settings_page.dart';
+import 'package:widgets/layouts.dart';
 
-class HomePage extends StatefulWidget {
+part 'home_page_child.dart';
+part 'home_page_large.dart';
+part 'home_page_medium.dart';
+part 'home_page_small.dart';
 
-  const HomePage({Key? key, required this.title}) : super(key: key);
+typedef NavigationIndexChanged = void Function(int index);
+
+class HomePage extends StatelessWidget {
+
+  const HomePage({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
 
   static const String name = "Home";
 
   static const String path = "/";
 
-  final String title;
+  static const String _indexKey = "NAV_INDEX";
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    // Current Navigation index.
+    int index = context.page.cache.read(key: _indexKey) ?? 0;
+    return ResponsiveLayout(
+      smallChild: HomePageSmall(
+        index: index,
+        child: child,
+        onNavigation: (index) => _onNavigate(context, index),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      mediumChild: HomePageMedium(
+        index: index,
+        child: child,
+        onNavigation: (index) => _onNavigate(context, index),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      largeChild: HomePageLarge(
+        index: index,
+        child: child,
+        onNavigation: (index) => _onNavigate(context, index),
       ),
     );
+  }
+
+  void _onNavigate(BuildContext context, int index) {
+    context.page.logger.i("Navigation to page number: $index");
+    switch (index) {
+      case 0:
+        context.page.cache.write(key: _indexKey, value: 0);
+        return context.to(HomePageChild.name);
+      case 1:
+        context.page.cache.write(key: _indexKey, value: 1);
+        return context.to(SearchPage.name);
+      case 2:
+        context.page.cache.write(key: _indexKey, value: 2);
+        return context.to(AccountPage.name);
+      case 3:
+        context.page.cache.write(key: _indexKey, value: 3);
+        return context.to(SettingsPage.name);
+      default:
+        context.page.cache.write(key: _indexKey, value: 0);
+        return context.to(HomePageChild.name);
+    }
   }
 }

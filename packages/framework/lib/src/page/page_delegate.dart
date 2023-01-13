@@ -11,13 +11,9 @@ typedef MultiPageWidgetBuilder = Widget Function(BuildContext context, Widget ch
 class PageDelegate {
 
   PageDelegate._({
-    required this.name,
     required this.type,
     required this.nestedPages,
   });
-
-  /// Used for navigation reference and the default logger tag.
-  final String name;
 
   /// Defines the type of Page to be built.
   final PageType type;
@@ -30,16 +26,17 @@ class PageDelegate {
 class SinglePage extends PageDelegate {
 
   SinglePage({
-    required String name,
+    required this.name,
     PageType? type,
     required this.path,
     required this.builder,
     List<PageDelegate> nestedPages = const [],
   }) : super._(
-    name: name,
     type: type ?? PageType.auto,
     nestedPages: nestedPages,
   );
+
+  final String name;
 
   final String path;
 
@@ -51,13 +48,11 @@ class SinglePage extends PageDelegate {
 class MultiPage extends PageDelegate {
 
   MultiPage({
-    required String name,
     PageType? type,
     required this.builder,
-    this.subPages = const [],
+    required this.subPages,
     List<PageDelegate> nestedPages = const [],
   }) : super._(
-    name: name,
     type: type ?? PageType.auto,
     nestedPages: nestedPages,
   );
@@ -72,16 +67,17 @@ class MultiPage extends PageDelegate {
 class ErrorPage extends PageDelegate {
 
   ErrorPage({
-    required String name,
+    required this.name,
     PageType? type,
     required this.path,
     required this.builder,
     List<PageDelegate> nestedPages = const [],
   }) : super._(
-    name: name,
     type: type ?? PageType.auto,
     nestedPages: nestedPages,
   );
+
+  final String name;
 
   final String path;
 
