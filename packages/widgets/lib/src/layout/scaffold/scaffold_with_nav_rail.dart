@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:widgets/staging.dart';
 
-class TabletStageSet extends StageSetWidget {
+class ScaffoldWithNavRail extends StatelessWidget {
 
-  TabletStageSet({
+  const ScaffoldWithNavRail({
     Key? key,
     this.appBar,
     this.drawer,
-    this.navRail,
+    required this.navRail,
     required this.body,
     this.fab,
   }) : super(key: key);
@@ -16,7 +15,7 @@ class TabletStageSet extends StageSetWidget {
 
   final Widget? drawer;
 
-  final NavigationRail? navRail;
+  final NavigationRail navRail;
 
   final Widget body;
 
@@ -25,21 +24,15 @@ class TabletStageSet extends StageSetWidget {
 
   @override
   Widget build(BuildContext context) {
-    var rail = navRail;
-    var scaffoldBody = body;
-    if (rail != null) {
-      scaffoldBody = Row(
-        children: [
-          rail,
-          body,
-        ],
-      );
-    }
-
     return Scaffold(
       appBar: appBar,
       drawer: drawer,
-      body: scaffoldBody,
+      body: Row(
+        children: [
+          navRail,
+          Expanded(child: body),
+        ],
+      ),
       floatingActionButton: fab,
     );
   }
