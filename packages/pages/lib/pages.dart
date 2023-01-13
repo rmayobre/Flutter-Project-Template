@@ -2,7 +2,7 @@ library pages;
 
 import 'package:framework/page_registry.dart';
 import 'package:pages/src/account/account_page.dart';
-import 'package:pages/src/home/home_page.dart';
+import 'package:pages/src/home/home_layout.dart';
 import 'package:pages/src/login/login_page.dart';
 import 'package:pages/src/search/search_page.dart';
 import 'package:pages/src/settings/settings_page.dart';
@@ -10,13 +10,13 @@ import 'package:pages/src/settings/settings_page.dart';
 export 'src/error/error_page.dart';
 
 final List<PageDelegate> pageRegistry = [
-  MultiPage(
-    builder: (context, child) => HomePage(child: child),
-    subPages: [
+  LayoutPage(
+    builder: (context, child) => HomeLayout(child: child),
+    childPages: [
       SinglePage(
         name: HomePage.name,
         path: HomePage.path,
-        builder: (context) => const HomePageChild(),
+        builder: (context) => const HomePage(),
       ),
       SinglePage(
         name: SearchPage.name,

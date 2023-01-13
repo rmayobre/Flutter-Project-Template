@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:widgets/layouts.dart';
 
 
 class SettingsPage extends StatelessWidget {

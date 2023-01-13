@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:framework/page.dart';
-import 'package:pages/src/home/home_page.dart';
+import 'package:pages/src/home/home_layout.dart';
 
 class LoginPage extends StatelessWidget {
 
