@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widgets/layouts.dart';
 
-part 'scaffold_with_drawer.dart';
 part 'scaffold_with_nav_bar.dart';
 part 'scaffold_with_nav_column.dart';
 part 'scaffold_with_nav_rail.dart';
