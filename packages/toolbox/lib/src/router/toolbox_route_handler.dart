@@ -76,7 +76,7 @@ extension on PageDelegate {
     if (this is SinglePage) {
       return (this as SinglePage).toGoRoute(rootKey, shellKey);
     } else {
-      return (this as MultiPage).toShellRoute(rootKey);
+      return (this as LayoutPage).toShellRoute(rootKey);
     }
   }
 }
@@ -122,7 +122,7 @@ extension on SinglePage {
   }
 }
 
-extension on MultiPage {
+extension on LayoutPage {
 
   ShellRoute toShellRoute(GlobalKey<NavigatorState> rootKey) {
     final GlobalKey<NavigatorState> shellKey = GlobalKey();
@@ -131,7 +131,7 @@ extension on MultiPage {
     return ShellRoute(
       navigatorKey: shellKey,
       pageBuilder: (context, state, child) => toPage(context, state, child),
-      routes: subPages.map((delegate) => delegate
+      routes: childPages.map((delegate) => delegate
           .toRoute(rootKey, shellKey))
           .toList(growable: false),
     );
@@ -154,7 +154,7 @@ extension on MultiPage {
   }
 
   Widget toPageScope(BuildContext context, GoRouterState state, Widget child) {
-    var pageName = state.name ?? "unknown-page";
+    var pageName = state.subloc;//state.name ?? "unknown-page";
     var pageWidget = builder(context, child);
     return PageScope(
       cache: Cache(),
