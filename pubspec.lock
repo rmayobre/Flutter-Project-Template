@@ -419,7 +419,7 @@ packages:
       path: "packages/widgets"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.0"
   win32:
     dependency: transitive
     description:
