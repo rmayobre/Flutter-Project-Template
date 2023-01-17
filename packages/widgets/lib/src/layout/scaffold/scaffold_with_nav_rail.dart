@@ -40,12 +40,13 @@ class ScaffoldWithNavRail extends StatelessWidget {
 
     if (destinations.isNotEmpty) {
       // Add navigation rail to scaffold.
-      if (destinations.length > 2) {
-        scaffoldBody = _buildNavigationRail();
-      }
-      // Add extra destinations to drawer.
-      if (destinations.length > 7) {
-        drawer = _buildDrawer();
+      if (destinations.length > 2 && destinations.length < 8) {
+        scaffoldBody = _buildNavigationRail(destinations.length);
+      } else if (destinations.length > 7) {
+        scaffoldBody = _buildNavigationRail(7);
+        drawer = _buildDrawer(7);
+      } else {
+        drawer = _buildDrawer(0); // put all destinations in drawer.
       }
     }
 
@@ -58,13 +59,13 @@ class ScaffoldWithNavRail extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawer() {
+  Widget _buildDrawer(int start) {
     List<Widget> drawerWidgets = [];
     var header = drawerHeader;
     if (header != null) {
       drawerWidgets.add(header);
     }
-    for (var i = 7; i < destinations.length; i++) {
+    for (var i = start; i < destinations.length; i++) {
       drawerWidgets.add(destinations[i].toListTile(index: i, onTap: onIndexChanged));
     }
     var footer = drawerFooter;
@@ -78,9 +79,9 @@ class ScaffoldWithNavRail extends StatelessWidget {
     );
   }
 
-  Widget _buildNavigationRail() {
+  Widget _buildNavigationRail(int end) {
     List<NavigationRailDestination> navDestinations = [];
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < end; i++) {
       navDestinations.add(destinations[i].toNavRailDestination());
     }
     return Row(
