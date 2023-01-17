@@ -33,7 +33,7 @@ final List<PageDelegate> pageRegistry = [
         path: SettingsPage.path,
         builder: (context) => const SettingsPage(),
       )
-    ]
+    ],
   ),
   SinglePage(
       name: LoginPage.name,

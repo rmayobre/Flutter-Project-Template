@@ -10,6 +10,7 @@ class PageScope extends InheritedWidget {
     required this.cache,
     required this.logger,
     required this.name,
+    required this.path,
     required this.pathParams,
     required this.queryParams,
     required super.child,
@@ -28,6 +29,9 @@ class PageScope extends InheritedWidget {
 
   /// Name of current page.
   final String name;
+
+  /// Current Page path.
+  final String path;
 
   /// Required parameters of the page.
   final Map<String, String> pathParams;

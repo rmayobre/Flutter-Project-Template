@@ -114,6 +114,7 @@ extension on SinglePage {
     return PageScope(
       cache: Cache(),
       name: name,
+      path: state.location,
       pathParams: state.params,
       queryParams: state.queryParams,
       logger: Logger(pageTag: name, console: context.app.console),
@@ -154,11 +155,12 @@ extension on LayoutPage {
   }
 
   Widget toPageScope(BuildContext context, GoRouterState state, Widget child) {
-    var pageName = state.subloc;//state.name ?? "unknown-page";
+    var pageName = state.subloc;
     var pageWidget = builder(context, child);
     return PageScope(
       cache: Cache(),
       name: pageName,
+      path: state.location,
       pathParams: state.params,
       queryParams: state.queryParams,
       logger: Logger(pageTag: pageName, console: context.app.console),
@@ -190,6 +192,7 @@ extension on ErrorPage {
     return PageScope(
       cache: Cache(),
       name: name,
+      path: state.location,
       pathParams: state.params,
       queryParams: state.queryParams,
       logger: Logger(pageTag: name, console: context.app.console),
