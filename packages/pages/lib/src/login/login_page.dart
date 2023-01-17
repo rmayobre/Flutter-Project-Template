@@ -11,13 +11,10 @@ class LoginPage extends StatelessWidget {
   static SinglePage delegate = SinglePage(
     name: LoginPage.name,
     path: LoginPage.path,
-    builder: (context) => LoginPage(),
+    builder: (context) => const LoginPage(),
   );
 
-  LoginPage({super.key});
-  
-  final ValueNotifier<String> _emailNotifier = ValueNotifier("");
-  final ValueNotifier<String> _passwordNotifier = ValueNotifier("");
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,71 +22,67 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Login Page"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            const SizedBox(height: 8),
-            TextField(
-              onChanged: (newValue) => _emailNotifier.value = newValue,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: "Email",
-                helperText: "user@email.com",
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              onChanged: (newValue) => _passwordNotifier.value = newValue,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Password",
-                helperText: "",
-              ),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                context.app.authenticator.login(
-                  email: _emailNotifier.value,
-                  password: _passwordNotifier.value,
-                ).then((value) {
-                  if (value != null) {
-                    context.to(HomePage.name);
-                  }
-                });
-              },
-              child: const Text("Login"),
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.page.logger.i("Logging in...");
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      body: _LoginForm(),
     );
   }
 }
 
-// class _AppBar extends StatelessWidget implements PreferredSizeWidget {
-//   @override
-//   Widget build(BuildContext context
-//       ) {
-//     // TODO: implement build
-//     throw UnimplementedError();
-//   }
-//
-//   @override
-//   // TODO: implement preferredSize
-//   Size get preferredSize => Size();
-//
-// }
+class _LoginForm extends StatefulWidget {
+
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<_LoginForm> {
+
+  String _username = "";
+  String _password = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        children: [
+          const SizedBox(height: 8),
+          TextField(
+            onChanged: (newValue) => _username = newValue,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(
+              labelText: "Email",
+              helperText: "user@email.com",
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            onChanged: (newValue) => _password = newValue,
+            obscureText: true,
+            decoration: const InputDecoration(
+              labelText: "Password",
+              helperText: "",
+            ),
+          ),
+          const SizedBox(height: 8),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            onPressed: () {
+              context.app.authenticator.login(
+                email: _username,
+                password: _password,
+              ).then((value) {
+                if (value != null) {
+                  context.to(HomePage.name);
+                }
+              });
+            },
+            child: const Text("Login"),
+          )
+        ],
+      ),
+    );
+  }
+}
