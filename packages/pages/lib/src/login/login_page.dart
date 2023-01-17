@@ -30,32 +30,22 @@ class LoginPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 8),
-            ValueListenableBuilder(
-                valueListenable: _emailNotifier, 
-                builder: (context, email, child) {
-                  return TextField(
-                    onChanged: (newValue) => _emailNotifier.value = newValue,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: "Email",
-                      helperText: "user@email.com",
-                    ),
-                  );
-                }
+            TextField(
+              onChanged: (newValue) => _emailNotifier.value = newValue,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                labelText: "Email",
+                helperText: "user@email.com",
+              ),
             ),
             const SizedBox(height: 8),
-            ValueListenableBuilder(
-                valueListenable: _passwordNotifier,
-                builder: (context, password, child) {
-                  return TextField(
-                    onChanged: (newValue) => _passwordNotifier.value = newValue,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: "Password",
-                      helperText: "",
-                    ),
-                  );
-                }
+            TextField(
+              onChanged: (newValue) => _passwordNotifier.value = newValue,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: "Password",
+                helperText: "",
+              ),
             ),
             const SizedBox(height: 8),
             ElevatedButton(
@@ -68,7 +58,11 @@ class LoginPage extends StatelessWidget {
                 context.app.authenticator.login(
                   email: _emailNotifier.value,
                   password: _passwordNotifier.value,
-                ).then((value) => context.to(HomePage.name));
+                ).then((value) {
+                  if (value != null) {
+                    context.to(HomePage.name);
+                  }
+                });
               },
               child: const Text("Login"),
             )
@@ -85,3 +79,17 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
+
+// class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+//   @override
+//   Widget build(BuildContext context
+//       ) {
+//     // TODO: implement build
+//     throw UnimplementedError();
+//   }
+//
+//   @override
+//   // TODO: implement preferredSize
+//   Size get preferredSize => Size();
+//
+// }
