@@ -55,6 +55,7 @@ extension RoutingExtension on BuildContext {
     Map<String, String> pathParams = const {},
     Map<String, dynamic> queryParams = const {}
   }) {
+    page.logger.i("Attempting to route to $name...");
     app.routeHandler.route(this, name, pathParams: pathParams, queryParams: queryParams);
   }
 }
