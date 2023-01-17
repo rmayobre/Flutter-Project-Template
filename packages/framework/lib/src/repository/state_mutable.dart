@@ -2,18 +2,23 @@ import 'package:flutter/widgets.dart';
 
 import 'state_listenable.dart';
 
-abstract class StateMutable<T> implements StateListenable<T> {
+abstract class StateMutable<T> extends StateListenable<T> {
 
+  /// Set state to [StateType.empty] and removed stored value.
   void empty();
 
+  /// Set state to [StateType.loaded] and set a value.
   void loaded(T value);
 
+  /// Set state to [StateType.loading]. [value] may be set to null.
   void loading();
 
+  /// Set state to [StateType.error]. Failed state might have been caused by an exception.
   void failed(Exception? exception);
 }
 
-class StateNotifier<T> extends ChangeNotifier implements StateMutable<T> {
+/// Standard implementation of a [StateListenable] with the mixin of a [ChangeNotifier].
+class StateNotifier<T> extends StateMutable<T> with ChangeNotifier {
 
   StateNotifier({
     T? value,

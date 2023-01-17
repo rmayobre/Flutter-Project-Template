@@ -1,6 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:framework/authentication.dart';
 
 import 'repository.dart';
+
+typedef OnEmptyCallback<R> = R Function();
+typedef OnLoadingCallback<R> = R Function();
+typedef OnLoadedCallback<R, T> = R Function(T value);
+typedef OnErrorCallback<R> = R Function(Exception? exception);
 
 /// Interface for the State of a [Repository].
 abstract class StateListenable<T> implements Listenable {
@@ -13,6 +19,55 @@ abstract class StateListenable<T> implements Listenable {
 
   /// Marks the type of state the [Repository] is in.
   StateType get type;
+
+  StateListenable<T> onEmpty(OnEmptyCallback<void> handle) {
+    if (type == StateType.empty) {
+      handle();
+    }
+    return this;
+  }
+
+  StateListenable<T> onLoading(OnLoadingCallback<void> handle) {
+    if (type == StateType.loading) {
+      handle();
+    }
+    return this;
+  }
+
+  StateListenable<T> onLoaded(OnLoadedCallback<void, T> handle) {
+    if (type == StateType.loaded) {
+      var val = value;
+      if (val != null) {
+        handle(val);
+      }
+    }
+    return this;
+  }
+
+  StateListenable<T> onFailed(OnErrorCallback<void> handle) {
+    if (type == StateType.failed) {
+      handle(exception);
+    }
+    return this;
+  }
+
+  R reduce<R>({
+    required OnEmptyCallback<R> onEmpty,
+    required OnLoadingCallback<R> onLoading,
+    required OnLoadedCallback<R, T> onLoaded,
+    required OnErrorCallback<R> onError,
+  }) {
+    switch(type) {
+      case StateType.empty:
+        return onEmpty();
+      case StateType.loading:
+        return onLoading();
+      case StateType.loaded:
+        return onLoaded(value as T);
+      case StateType.failed:
+        return onError(exception);
+    }
+  }
 }
 
 enum StateType {
@@ -28,37 +83,3 @@ enum StateType {
   /// The [Repository] failed to collect data. This typically results in an [Exception].
   failed;
 }
-
-// extension <T> on StateListenable<T> {
-//
-//   StateListenable<T> onEmpty(void Function() handle) {
-//     if (type == StateType.empty) {
-//       handle;
-//     }
-//     return this;
-//   }
-//
-//   StateListenable<T> onLoading(void Function() handle) {
-//     if (type == StateType.loading) {
-//       handle;
-//     }
-//     return this;
-//   }
-//
-//   StateListenable<T> onLoaded(void Function(T value) handle) {
-//     if (type == StateType.loaded) {
-//       var val = value;
-//       if (val != null) {
-//         handle(val);
-//       }
-//     }
-//     return this;
-//   }
-//
-//   StateListenable<T> onFailed(void Function(Exception? exception) handle) {
-//     if (type == StateType.failed) {
-//       handle(exception);
-//     }
-//     return this;
-//   }
-// }
