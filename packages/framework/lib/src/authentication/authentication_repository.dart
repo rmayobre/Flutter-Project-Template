@@ -54,6 +54,13 @@ class _OfflineAuthenticationRepository implements AuthenticationRepository {
   @override
   Future<Session?> login({required String email, required String password}) {
     state.loading();
+    if (email.isEmpty || password.isEmpty) {
+      return Future.delayed(Duration(seconds: authDelay), () {
+        state.empty();
+        _controller.add(null);
+        return null;
+      });
+    }
     if (_controller.isClosed) {
       _controller = StreamController();
     }
