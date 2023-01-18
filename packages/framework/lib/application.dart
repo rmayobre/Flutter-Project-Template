@@ -68,6 +68,7 @@ class Application extends StatelessWidget {
         cache: cache,
         console: console,
         persistent: persistent,
+        registry: registry,
         routeHandler: routeHandler,
         child: MaterialApp.router(
           title: title,

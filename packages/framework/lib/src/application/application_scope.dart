@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:framework/application.dart';
 import 'package:framework/routing.dart';
 import 'package:framework/src/analytics/analytics.dart';
 import 'package:framework/src/authentication/authenticator.dart';
@@ -19,6 +20,7 @@ class ApplicationScope extends InheritedWidget {
     required this.cache,
     required this.console,
     required this.persistent,
+    required this.registry,
     required this.routeHandler,
     required super.child,
   });
@@ -36,6 +38,8 @@ class ApplicationScope extends InheritedWidget {
   final LogConsole console;
 
   final PersistentCache persistent;
+
+  final RepoRegistry registry;
 
   final RouteHandler routeHandler;
 
