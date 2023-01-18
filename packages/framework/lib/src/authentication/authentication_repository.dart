@@ -53,14 +53,10 @@ class _OfflineAuthenticationRepository implements AuthenticationRepository {
 
   @override
   Future<Session?> login({required String email, required String password}) {
-    state.loading();
     if (email.isEmpty || password.isEmpty) {
-      return Future.delayed(Duration(seconds: authDelay), () {
-        state.empty();
-        _controller.add(null);
-        return null;
-      });
+      return Future.value(null);
     }
+    state.loading();
     if (_controller.isClosed) {
       _controller = StreamController();
     }
@@ -76,7 +72,7 @@ class _OfflineAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future close() async {
+  Future close() {
     return Future.delayed(Duration(seconds: authDelay), () async {
       state.empty();
       _controller.add(null);
@@ -85,7 +81,7 @@ class _OfflineAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future logout() async {
+  Future logout() {
     return Future.delayed(Duration(seconds: authDelay), () {
       state.empty();
       _controller.add(null);
