@@ -5,7 +5,6 @@ import '../analytics/analytics.dart';
 import '../event/event_emitter.dart';
 import '../logger/log_console.dart';
 import '../page/page_scope.dart';
-import '../repository/repository.dart';
 import '../routing/route_handler.dart';
 import '../storage/cache.dart';
 import '../storage/persistent_cache.dart';
@@ -81,11 +80,9 @@ extension AppScopeExtensions on BuildContext {
     return false;
   }
 
-
   Future<T>? future<T>() => app.futures[T]?.model as Future<T>;
 
   Stream<T>? stream<T>() => app.streams[T]?.model as Stream<T>;
 
   StateListenable<T>? state<T>() => app.states[T]?.model as StateListenable<T>;
-
 }
