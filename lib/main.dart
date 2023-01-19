@@ -1,59 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:framework/application.dart';
 import 'package:pages/pages.dart';
-import 'package:repositories/authentication.dart';
+import 'package:services/authentication.dart';
 import 'package:toolbox/toolbox.dart';
 
 void main() => runOfflineApp();
 
-void runFirebaseApp() {
-  final AuthenticationRepository authenticationRepository = FirebaseAuthRepository();
+void runFirebaseApp() async {
+  var authService = FirebaseAuthService();
+  var persistentCache = await ToolboxPersistentCache.build();
   runApp(
       Application(
         analytics: ToolboxAnalytics(),
-        authRepo: authenticationRepository,
-        cache: Cache(),
-        console: ToolboxConsole(),
-        pages: pageRegistry,
-        persistent: ToolboxPersistentCache(),
-        routeHandler: ToolboxRouteHandler.go(
-          loginPath: "/login",
-          sessionState: authenticationRepository.state,
+        console: LogConsole.noLogs(),
+        persistent: persistentCache,
+        routeHandler: ToolboxRouteHandler(
+          loginPath: '/login',
+          authState: authService.model,
           errorPage: ErrorPageWidget.delegate,
           pages: pageRegistry,
         ),
         theme: ThemeData(primarySwatch: Colors.blue,),
-        registry: RepoRegistry.from(
-            repos: {
-              Authenticator.repoKey : authenticationRepository,
-            }
-        ),
+        services: [authService],
       )
   );
 }
 
 void runOfflineApp() {
-  final AuthenticationRepository authenticationRepository = AuthenticationRepository.offline();
+  var authService = OfflineAuthService(authDelay: 3);
   runApp(
-      Application(
-        analytics: Analytics.offline(),
-        authRepo: authenticationRepository,
-        cache: Cache(),
+      Application.test(
         console: ToolboxConsole(),
-        pages: pageRegistry,
-        persistent: ToolboxPersistentCache(),
-        routeHandler: ToolboxRouteHandler.go(
-          loginPath: "/login",
-          sessionState: authenticationRepository.state,
+        routeHandler: ToolboxRouteHandler(
+          loginPath: '/login',
+          authState: authService.model,
           errorPage: ErrorPageWidget.delegate,
           pages: pageRegistry,
         ),
         theme: ThemeData(primarySwatch: Colors.blue,),
-        registry: RepoRegistry.from(
-            repos: {
-              Authenticator.repoKey : authenticationRepository,
-            }
-        ),
+        services: [authService],
       )
   );
 }

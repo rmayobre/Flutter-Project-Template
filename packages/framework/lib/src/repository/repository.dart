@@ -1,23 +1,26 @@
 import 'state_listenable.dart';
 
-abstract class Repository {
+abstract class Repository<T> {
 
-  /// Used to help clean up or close pending connections to a [Repository]
-  /// before the application shuts down.
-  Future close();
+  T get model;
+
+  final Type modelType = T;
 }
 
-abstract class FutureRepository<T> implements Repository {
+mixin FutureRepository<T> implements Repository<Future<T>> {
 
-  Future<T> get data;
+  @override
+  final Type modelType = T;
 }
 
-abstract class StreamRepository<T> implements Repository {
+mixin StreamRepository<T> implements Repository<Stream<T>> {
 
-  Stream<T> get stream;
+  @override
+  final Type modelType = T;
 }
 
-abstract class StatefulRepository<T> implements Repository {
+mixin StatefulRepository<T> implements Repository<StateListenable<T>> {
 
-  StateListenable<T> get state;
+  @override
+  final Type modelType = T;
 }

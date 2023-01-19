@@ -1,5 +1,5 @@
-name: pages
-description: Pages supported within project.
+name: services
+description: A collection of services to be used within the application.
 publish_to: 'none'
 
 environment:
@@ -7,19 +7,15 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  firebase_auth: ^4.2.5
   flutter:
     sdk: flutter
   framework:
     path: ../framework
   models:
     path: ../models
-  widgets:
-    path: ../widgets
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-
-flutter:
-  uses-material-design: true

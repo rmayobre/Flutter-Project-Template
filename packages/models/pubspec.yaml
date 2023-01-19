@@ -1,5 +1,5 @@
-name: repositories
-description: A collection of repositories to be used with Pages package.
+name: models
+description: Data models to be used within the application.
 publish_to: 'none'
 
 environment:
@@ -7,11 +7,8 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  firebase_auth: ^4.2.5
   flutter:
     sdk: flutter
-  framework:
-    path: ../framework
 
 dev_dependencies:
   flutter_test:

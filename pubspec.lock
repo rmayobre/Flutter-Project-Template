@@ -226,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  models:
+    dependency: "direct main"
+    description:
+      path: "packages/models"
+      relative: true
+    source: path
+    version: "0.0.0"
   pages:
     dependency: "direct main"
     description:
@@ -282,10 +289,10 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
-  repositories:
+  services:
     dependency: "direct main"
     description:
-      path: "packages/repositories"
+      path: "packages/services"
       relative: true
     source: path
     version: "0.0.0"

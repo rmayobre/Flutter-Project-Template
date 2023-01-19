@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:framework/page.dart';
+import 'package:models/authentication.dart';
 import 'package:pages/src/home/home_layout.dart';
 
 class LoginPage extends StatelessWidget {
 
-  static const String name = "Login";
+  static const String name = 'Login';
 
-  static const String path = "/login";
+  static const String path = '/login';
 
   static SinglePage delegate = SinglePage(
     name: LoginPage.name,
@@ -18,11 +19,18 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var state = context.state<Session>();
+    if (state?.type == StateType.loaded) {
+      context.to(HomePage.name);
+      return Container(); // Blank widget for page transitions.
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login Page"),
+        title: const Text('Login Page'),
       ),
-      body: _LoginForm(),
+      body: state?.type == StateType.loading
+          ? const Center(child: CircularProgressIndicator(color: Colors.blue,),)
+          : _LoginForm(),
     );
   }
 }
@@ -35,8 +43,8 @@ class _LoginForm extends StatefulWidget {
 
 class _LoginState extends State<_LoginForm> {
 
-  String _username = "";
-  String _password = "";
+  String _email = '';
+  String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +54,11 @@ class _LoginState extends State<_LoginForm> {
         children: [
           const SizedBox(height: 8),
           TextField(
-            onChanged: (newValue) => _username = newValue,
+            onChanged: (newValue) => _email = newValue,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-              labelText: "Email",
-              helperText: "user@email.com",
+              labelText: 'Email',
+              helperText: 'user@email.com',
             ),
           ),
           const SizedBox(height: 8),
@@ -58,8 +66,8 @@ class _LoginState extends State<_LoginForm> {
             onChanged: (newValue) => _password = newValue,
             obscureText: true,
             decoration: const InputDecoration(
-              labelText: "Password",
-              helperText: "",
+              labelText: 'Password',
+              helperText: '',
             ),
           ),
           const SizedBox(height: 8),
@@ -70,16 +78,14 @@ class _LoginState extends State<_LoginForm> {
               ),
             ),
             onPressed: () {
-              context.app.authenticator.login(
-                email: _username,
-                password: _password,
-              ).then((value) {
-                if (value != null) {
-                  context.to(HomePage.name);
-                }
-              });
+              context.emit(
+                AuthEvent.login(
+                  email: _email, 
+                  password: _password,
+                ),
+              );
             },
-            child: const Text("Login"),
+            child: const Text('Login'),
           )
         ],
       ),

@@ -1,7 +1,6 @@
 library routing;
 
 export 'src/application/application_scope.dart';
-export 'src/authentication/session.dart';
 export 'src/logger/logger.dart';
 export 'src/page/page_delegate.dart';
 export 'src/page/page_scope.dart';

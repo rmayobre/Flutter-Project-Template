@@ -1,61 +1,59 @@
+import 'dart:async';
+
 import 'package:framework/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ToolboxPersistentCache implements PersistentCache {
 
-  late SharedPreferences preferences;
+  const ToolboxPersistentCache._(this.preferences);
+
+  /// Parse device's persistent storage and build a cache.
+  static Future<PersistentCache> build() async {
+    var cache = await SharedPreferences.getInstance();
+    return ToolboxPersistentCache._(cache);
+  }
+
+  final SharedPreferences preferences;
 
   @override
-  void clear() {
-    // TODO: implement clear
+  bool? getBool(String key) => preferences.getBool(key);
+
+  @override
+  void setBool(String key, bool value) {
+    preferences.setBool(key, value);
   }
 
   @override
-  bool getBool(String key) {
-    // TODO: implement getBool
-    throw UnimplementedError();
+  double? getDouble(String key) => preferences.getDouble(key);
+
+  @override
+  void setDouble(String key, double value) {
+    preferences.setDouble(key, value);
   }
 
   @override
-  double getDouble(String key) {
-    // TODO: implement getDouble
-    throw UnimplementedError();
+  int? getInt(String key) => preferences.getInt(key);
+
+  @override
+  void setInt(String key, int value) {
+    preferences.setInt(key, value);
   }
 
   @override
-  int getInt(String key) {
-    // TODO: implement getInt
-    throw UnimplementedError();
+  String? getString(String key) => preferences.getString(key);
+
+  @override
+  void setString(String key, String value) {
+    preferences.setString(key, value);
   }
 
   @override
-  String getString(String key) {
-    // TODO: implement getString
-    throw UnimplementedError();
+  void remove(String key) {
+    preferences.remove(key);
   }
 
   @override
-  bool setBool(String key, bool value) {
-    // TODO: implement setBool
-    throw UnimplementedError();
+  FutureOr<void> clear() async {
+    await preferences.clear();
   }
-
-  @override
-  double setDouble(String key, double value) {
-    // TODO: implement setDouble
-    throw UnimplementedError();
-  }
-
-  @override
-  int setInt(String key, int value) {
-    // TODO: implement setInt
-    throw UnimplementedError();
-  }
-
-  @override
-  String setString(String key, String value) {
-    // TODO: implement setString
-    throw UnimplementedError();
-  }
-
 }

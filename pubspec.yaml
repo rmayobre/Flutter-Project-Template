@@ -13,10 +13,12 @@ dependencies:
     sdk: flutter
   framework:
     path: packages/framework
+  models:
+    path: packages/models
   pages:
     path: packages/pages
-  repositories:
-    path: packages/repositories
+  services:
+    path: packages/services
   toolbox:
     path: packages/toolbox
 

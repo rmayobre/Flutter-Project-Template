@@ -1,18 +1,61 @@
+import 'dart:async';
+
 import 'storage.dart';
 
 abstract class PersistentCache implements Storage {
 
-  int getInt(String key);
-  int setInt(String key, int value);
+  factory PersistentCache.noStorage() => _NoStorage();
 
-  double getDouble(String key);
-  double setDouble(String key, double value);
+  void remove(String key);
 
-  bool getBool(String key);
-  bool setBool(String key, bool value);
+  int? getInt(String key);
 
-  String getString(String key);
-  String setString(String key, String value);
+  void setInt(String key, int value);
+
+  double? getDouble(String key);
+
+  void setDouble(String key, double value);
+
+  bool? getBool(String key);
+
+  void setBool(String key, bool value);
+
+  String? getString(String key);
+
+  void setString(String key, String value);
+}
+
+class _NoStorage implements PersistentCache {
+
+  @override
+  FutureOr<void> clear() {}
+
+  @override
+  bool? getBool(String key) => null;
+
+  @override
+  double? getDouble(String key) => null;
+
+  @override
+  int? getInt(String key) => null;
+
+  @override
+  String? getString(String key) => null;
+
+  @override
+  void remove(String key) {}
+
+  @override
+  void setBool(String key, bool value) {}
+
+  @override
+  void setDouble(String key, double value) {}
+
+  @override
+  void setInt(String key, int value) {}
+
+  @override
+  void setString(String key, String value) {}
 }
 /*
 abstract class PersistentData {

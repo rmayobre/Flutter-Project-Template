@@ -1,36 +1,20 @@
 import 'storage.dart';
 
 /// A wrapper for a [Map] object that will map objects based on type.
-abstract class Cache implements Storage {
-
-  factory Cache({Map<String, Object>? map}) => _Cache(map ?? {});
-
-  /// Write to storage.
-  void write<T extends Object>({required String key, required T value});
-
-  /// Read from storage.
-  T? read<T extends Object>({required String key});
-
-  /// Remove from storage.
-  T? remove<T extends Object>({required String key});
-
-}
-
-/// Standard implementation of [Cache].
-class _Cache implements Cache {
+class Cache implements Storage {
 
   /// Mapping of cached objects.
   final Map<String, Object> _map;
 
   /// Construct an empty Cache.
-  const _Cache(this._map);
+  const Cache({Map<String, Object>? map}) : _map = map ?? const {};
 
-  @override
+  /// Write to storage.
   void write<T extends Object>({required String key, required T value}) {
     _map[key] = value;
   }
 
-  @override
+  /// Read from storage.
   T? read<T extends Object>({required String key}) {
     var value = _map[key];
     if (value is T) {
@@ -39,7 +23,7 @@ class _Cache implements Cache {
     return null;
   }
 
-  @override
+  /// Remove from storage.
   T? remove<T extends Object>({required String key}) {
     var value = _map[key];
     if (value is T) {

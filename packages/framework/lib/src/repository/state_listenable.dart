@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:framework/authentication.dart';
 
 import 'repository.dart';
 
@@ -20,37 +19,38 @@ abstract class StateListenable<T> implements Listenable {
   /// Marks the type of state the [Repository] is in.
   StateType get type;
 
-  StateListenable<T> onEmpty(OnEmptyCallback<void> handle) {
+  /// Runs this callback if the state is [StateType.empty].
+  void onEmpty(OnEmptyCallback<void> handle) {
     if (type == StateType.empty) {
       handle();
     }
-    return this;
   }
 
-  StateListenable<T> onLoading(OnLoadingCallback<void> handle) {
+  /// Runs this callback if the state is [StateType.loading].
+  void onLoading(OnLoadingCallback<void> handle) {
     if (type == StateType.loading) {
       handle();
     }
-    return this;
   }
 
-  StateListenable<T> onLoaded(OnLoadedCallback<void, T> handle) {
+  /// Runs this callback if the state is [StateType.loaded].
+  void onLoaded(OnLoadedCallback<void, T> handle) {
     if (type == StateType.loaded) {
       var val = value;
       if (val != null) {
         handle(val);
       }
     }
-    return this;
   }
 
-  StateListenable<T> onFailed(OnErrorCallback<void> handle) {
+  /// Runs this callback if the state is [StateType.failed].
+  void onFailed(OnErrorCallback<void> handle) {
     if (type == StateType.failed) {
       handle(exception);
     }
-    return this;
   }
 
+  /// Reduce the state into a result type of [R].
   R reduce<R>({
     required OnEmptyCallback<R> onEmpty,
     required OnLoadingCallback<R> onLoading,

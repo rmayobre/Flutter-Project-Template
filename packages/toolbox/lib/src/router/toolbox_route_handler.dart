@@ -1,67 +1,45 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/routing.dart';
 import 'package:go_router/go_router.dart';
 
-abstract class ToolboxRouteHandler implements RouteHandler {
+class ToolboxRouteHandler implements RouteHandler {
 
-  const ToolboxRouteHandler({required this.config});
+  ToolboxRouteHandler._(this.config);
 
-  /// Construct a [ToolboxRouteHandler] using the [GoRouter] library.
-  factory ToolboxRouteHandler.go({
+  factory ToolboxRouteHandler({
     String homePath = "/",
     required String loginPath,
-    required StateListenable<Session> sessionState,
+    required StateListenable<dynamic> authState,
     required ErrorPage errorPage,
     required List<PageDelegate> pages,
   }) {
     final GlobalKey<NavigatorState> rootKey = GlobalKey();
-    return _GoRouteHandler(
-      config: GoRouter(
+    return ToolboxRouteHandler._(
+      GoRouter(
         navigatorKey: rootKey,
         initialLocation: homePath,
-        refreshListenable: sessionState,
+        refreshListenable: authState,
         errorPageBuilder: (context, state) => errorPage.toPage(context, state),
-        routes: _GoRouteHandler.createRoutes(rootKey, pages),
-        redirect: (context, state) {
-          return _GoRouteHandler.onRedirect(
-            buildContext: context,
-            goRouterState: state,
-            sessionState: sessionState,
-            loginPath: loginPath,
-          );
-        },
+        routes: createRoutes(rootKey, pages),
+        redirect: (context, state) => _onRedirect(authState, loginPath),
       ),
     );
   }
 
-  @override
-  final RouterConfig<Object> config;
+  static List<RouteBase> createRoutes(GlobalKey<NavigatorState> rootKey, List<PageDelegate> delegates) =>
+      delegates.map((page) => page.toRoute(rootKey, null)).toList(growable: false);
 
-}
-
-class _GoRouteHandler extends ToolboxRouteHandler {
-
-  const _GoRouteHandler({required super.config});
-
-  static FutureOr<String?> onRedirect({
-    required BuildContext buildContext,
-    required GoRouterState goRouterState,
-    required StateListenable<Session> sessionState,
-    required String loginPath,
-  }) {
-    // If session is missing, user is unauthenticated.
-    if (sessionState.value == null) {
+  static String? _onRedirect(StateListenable<dynamic> authState, String loginPath) {
+    if (authState.type != StateType.loaded) {
       return loginPath;
     }
     return null;
   }
 
-  static List<RouteBase> createRoutes(GlobalKey<NavigatorState> rootKey, List<PageDelegate> delegates) =>
-      delegates.map((page) => page.toRoute(rootKey, null)).toList(growable: false);
+  @override
+  final RouterConfig<Object> config;
 
   @override
   void route(BuildContext context, String name, {
@@ -112,7 +90,7 @@ extension on SinglePage {
     var pageWidget = builder(context);
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
-      cache: Cache(),
+      cache: const Cache(),
       name: name,
       path: state.location,
       pathParams: state.params,
@@ -158,7 +136,7 @@ extension on LayoutPage {
     var pageName = state.subloc;
     var pageWidget = builder(context, child);
     return PageScope(
-      cache: Cache(),
+      cache: const Cache(),
       name: pageName,
       path: state.location,
       pathParams: state.params,
@@ -190,7 +168,7 @@ extension on ErrorPage {
     var pageWidget = builder(context, state.error);
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
-      cache: Cache(),
+      cache: const Cache(),
       name: name,
       path: state.location,
       pathParams: state.params,

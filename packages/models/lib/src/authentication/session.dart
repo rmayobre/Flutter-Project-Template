@@ -1,6 +1,3 @@
-import 'package:flutter/widgets.dart';
-
-@immutable
 class Session {
 
   const Session({
