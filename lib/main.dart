@@ -31,7 +31,7 @@ void runFirebaseApp() async {
 }
 
 void runOfflineApp() {
-  var authService = OfflineAuthService(authDelay: 3, sessionId: '123');
+  var authService = OfflineAuthService(authDelay: 3/*, sessionId: '123'*/);
   runApp(
       Application.test(
         console: ToolboxConsole(),
