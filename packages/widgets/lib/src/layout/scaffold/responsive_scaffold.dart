@@ -113,15 +113,18 @@ extension on NavigationItem {
     return NavigationRailDestination(
       icon: icon,
       label: Text(label),
+      padding: const EdgeInsets.all(16.0),
       selectedIcon: selectedIcon,
     );
   }
 
   ListTile toListTile({
     required int index,
+    required bool selected,
     required IndexChangeHandler onTap,
   }) => ListTile(
     leading: icon,
+    selected: selected,
     title: Text(label),
     onTap: () => onTap(index),
   );

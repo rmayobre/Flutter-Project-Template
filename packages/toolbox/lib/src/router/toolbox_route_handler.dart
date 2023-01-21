@@ -9,7 +9,7 @@ class ToolboxRouteHandler implements RouteHandler {
   ToolboxRouteHandler._(this.config);
 
   factory ToolboxRouteHandler({
-    String homePath = "/",
+    String homePath = '/',
     required String loginPath,
     required StateListenable<dynamic> authState,
     required ErrorPage errorPage,

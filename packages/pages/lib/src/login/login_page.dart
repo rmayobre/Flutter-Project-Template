@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var state = context.state<Session>();
     if (state?.type == StateType.loaded) {
-      context.to(HomePage.name);
+      context.to(OverviewPage.name);
       return Container(); // Blank widget for page transitions.
     }
     return Scaffold(

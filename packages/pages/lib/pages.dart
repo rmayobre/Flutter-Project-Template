@@ -1,22 +1,21 @@
 library pages;
 
 import 'package:framework/page_registry.dart';
-import 'package:pages/src/account/account_page.dart';
 import 'package:pages/src/home/home_layout.dart';
 import 'package:pages/src/login/login_page.dart';
-import 'package:pages/src/search/search_page.dart';
-import 'package:pages/src/settings/settings_page.dart';
 
 export 'src/error/error_page.dart';
+
+const String loginPath = LoginPage.path;
 
 final List<PageDelegate> pageRegistry = [
   LayoutPage(
     builder: (context, child) => HomeLayout(child: child),
     childPages: [
       SinglePage(
-        name: HomePage.name,
-        path: HomePage.path,
-        builder: (context) => const HomePage(),
+        name: OverviewPage.name,
+        path: OverviewPage.path,
+        builder: (context) => const OverviewPage(),
       ),
       SinglePage(
         name: SearchPage.name,
@@ -38,6 +37,6 @@ final List<PageDelegate> pageRegistry = [
   SinglePage(
       name: LoginPage.name,
       path: LoginPage.path,
-      builder: (context) => LoginPage(),
+      builder: (context) => const LoginPage(),
   ),
 ];

@@ -66,7 +66,13 @@ class ScaffoldWithNavRail extends StatelessWidget {
       drawerWidgets.add(header);
     }
     for (var i = start; i < destinations.length; i++) {
-      drawerWidgets.add(destinations[i].toListTile(index: i, onTap: onIndexChanged));
+      drawerWidgets.add(
+          destinations[i].toListTile(
+            index: i,
+            selected: i == currentIndex,
+            onTap: onIndexChanged,
+          )
+      );
     }
     var footer = drawerFooter;
     if (footer != null) {
@@ -87,14 +93,12 @@ class ScaffoldWithNavRail extends StatelessWidget {
     return Row(
       children: [
         NavigationRail(
+          backgroundColor: Colors.transparent,
           selectedIndex: currentIndex,
+          groupAlignment: 0.0,
           labelType: NavigationRailLabelType.selected,
           onDestinationSelected: onIndexChanged,
           destinations: navDestinations,
-        ),
-        const VerticalDivider(
-          thickness: 1,
-          width: 1,
         ),
         Expanded(child: body),
       ],

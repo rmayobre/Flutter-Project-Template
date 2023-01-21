@@ -44,6 +44,7 @@ class ScaffoldWithNavColumn extends StatelessWidget {
       drawerWidgets.add(
         destinations[i].toListTile(
           index: i,
+          selected: i == currentIndex,
           onTap: onIndexChanged,
         ),
       );

@@ -1,11 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/page.dart';
-import 'package:pages/src/account/account_page.dart';
-import 'package:pages/src/search/search_page.dart';
-import 'package:pages/src/settings/settings_page.dart';
+import 'package:models/content.dart';
 import 'package:widgets/layouts.dart';
 
-part 'home_page.dart';
+part 'account/account_page.dart';
+part 'overview/overview_page.dart';
+part 'search/search_page.dart';
+part 'settings/settings_page.dart';
 
 class HomeLayout extends StatelessWidget {
 
@@ -17,9 +19,9 @@ class HomeLayout extends StatelessWidget {
   final Widget child;
 
   /// Supported destinations for home layout.
-  static const homeDestinations = [
+  static const _homeDestinations = [
     NavigationItem(
-      label: HomePage.name,
+      label: OverviewPage.name,
       icon: Icon(Icons.home_outlined),
       selectedIcon: Icon(Icons.home),
     ),
@@ -40,22 +42,10 @@ class HomeLayout extends StatelessWidget {
     ),
   ];
 
-  @override
-  Widget build(BuildContext context) {
-    return ResponsiveScaffold(
-      currentIndex: context.currentIndex,
-      onIndexChanged: (index) => _onNavigate(context, index),
-      destinations: homeDestinations,
-      child: child,
-    );
-  }
-
   /// Handles navigation for each page.
-  void _onNavigate(BuildContext context, int index) {
+  static void _onNavigate(BuildContext context, int index) {
     context.page.logger.i("Navigation to page number: $index");
     switch (index) {
-      case 0:
-        return context.to(HomePage.name);
       case 1:
         return context.to(SearchPage.name);
       case 2:
@@ -63,17 +53,45 @@ class HomeLayout extends StatelessWidget {
       case 3:
         return context.to(SettingsPage.name);
       default:
-        return context.to(HomePage.name);
+        return context.to(OverviewPage.name);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ResponsiveScaffold(
+        currentIndex: context.currentIndex,
+        onIndexChanged: (index) => _onNavigate(context, index),
+        destinations: _homeDestinations,
+        appBar: AppBar(
+          title: Text(context.pageName),
+        ),
+        child: child,
+      ),
+    );
   }
 }
 
 extension on BuildContext {
 
+  String get pageName {
+    switch(page.path) {
+      case SearchPage.path:
+        return SearchPage.name;
+      case AccountPage.path:
+        return AccountPage.name;
+      case SettingsPage.path:
+        return SettingsPage.name;
+      default:
+        return OverviewPage.name;
+    }
+  }
+
   /// Current index to Home Layout.
   int get currentIndex {
     switch(page.path) {
-      case HomePage.path:
+      case OverviewPage.path:
         return 0;
       case SearchPage.path:
         return 1;

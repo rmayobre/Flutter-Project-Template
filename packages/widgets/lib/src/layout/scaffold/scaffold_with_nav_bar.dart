@@ -66,7 +66,13 @@ class ScaffoldWithNavBar extends StatelessWidget {
       drawerWidgets.add(header);
     }
     for (var i = start; i < destinations.length; i++) {
-      drawerWidgets.add(destinations[i].toListTile(index: i, onTap: onIndexChanged));
+      drawerWidgets.add(
+          destinations[i].toListTile(
+            index: i,
+            selected: i == currentIndex,
+            onTap: onIndexChanged,
+          )
+      );
     }
     var footer = drawerFooter;
     if (footer != null) {
