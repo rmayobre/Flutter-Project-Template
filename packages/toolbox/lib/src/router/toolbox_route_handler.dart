@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/routing.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toolbox/src/storage/toolbox_cache.dart';
 
 import 'route_info.dart';
 
@@ -100,7 +101,7 @@ extension on SinglePage {
     var pageWidget = builder(context);
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
-      cache: const Cache(),
+      cache: const ToolboxCache(),
       name: name,
       path: state.location,
       pathParams: state.params,
@@ -146,7 +147,7 @@ extension on LayoutPage {
     var pageName = state.subloc;
     var pageWidget = builder(context, child);
     return PageScope(
-      cache: const Cache(),
+      cache: const ToolboxCache(),
       name: pageName,
       path: state.location,
       pathParams: state.params,
@@ -178,7 +179,7 @@ extension on ErrorPage {
     var pageWidget = builder(context, state.error);
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
-      cache: const Cache(),
+      cache: const ToolboxCache(),
       name: name,
       path: state.location,
       pathParams: state.params,

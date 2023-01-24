@@ -9,9 +9,9 @@ class Application extends StatefulWidget {
 
   const Application({
     super.key,
-    this.cache = const Cache(),
     this.title = '',
     required this.analytics,
+    required this.cache,
     required this.console,
     required this.persistent,
     required this.routeHandler,
@@ -21,7 +21,7 @@ class Application extends StatefulWidget {
 
   factory Application.test({
     String title = '',
-    Cache cache = const Cache(),
+    required Cache cache,
     required LogConsole console,
     required RouteHandler routeHandler,
     required List<Service<dynamic, dynamic>> services,

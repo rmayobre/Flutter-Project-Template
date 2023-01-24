@@ -5,31 +5,16 @@ import 'package:services/authentication.dart';
 import 'package:services/generator.dart';
 import 'package:toolbox/toolbox.dart';
 
-/// How redirects work for the application.
-String? onRedirect(
-    BuildContext context,
-    StateType authState,
-    RouteInfo info,
-) {
-  if (authState == StateType.empty || authState == StateType.failed) {
-    if (info.path != loginPath) {
-      return loginPath;
-    }
-  }
-  if (authState == StateType.loaded && info.path == loginPath) {
-    return homePath;
-  }
-  return null;
-}
-
 void main() => runOfflineApp();
 
-void runFirebaseApp() async {
+/// Simple function to run a production application.
+void runProductionApp() async {
   var authService = FirebaseAuthService();
   var persistentCache = await ToolboxPersistentCache.build();
   runApp(
       Application(
         analytics: ToolboxAnalytics(),
+        cache: const ToolboxCache(),
         console: LogConsole.noLogs(),
         persistent: persistentCache,
         routeHandler: ToolboxRouteHandler(
@@ -48,10 +33,13 @@ void runFirebaseApp() async {
   );
 }
 
+/// Simple function to run an offline version of the application. This typically
+/// used for UI development/testing.
 void runOfflineApp() {
   var authService = OfflineAuthService(authDelay: 3/*, sessionId: '123'*/);
   runApp(
       Application.test(
+        cache: const ToolboxCache(),
         console: ToolboxConsole(),
         routeHandler: ToolboxRouteHandler(
           loginPath: loginPath,
@@ -71,4 +59,21 @@ void runOfflineApp() {
         ],
       )
   );
+}
+
+/// How redirects work for the application.
+String? onRedirect(
+    BuildContext context,
+    StateType authState,
+    RouteInfo info,
+    ) {
+  if (authState == StateType.empty || authState == StateType.failed) {
+    if (info.path != loginPath) {
+      return loginPath;
+    }
+  }
+  if (authState == StateType.loaded && info.path == loginPath) {
+    return homePath;
+  }
+  return null;
 }
