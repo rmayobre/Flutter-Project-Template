@@ -13,8 +13,10 @@ export 'package:framework/src/application/application_scope.dart';
 export 'package:framework/src/logger/log_console.dart';
 export 'package:framework/src/page/page_delegate.dart';
 export 'package:framework/src/routing/route_handler.dart';
+export 'package:framework/src/repository/repo_state.dart';
 export 'package:framework/src/storage/cache.dart';
 export 'package:framework/src/storage/persistent_cache.dart';
+
 
 class Application extends StatefulWidget {
 
@@ -112,52 +114,3 @@ class _ApplicationState extends State<Application> {
     );
   }
 }
-
-// class Application extends StatelessWidget {
-//
-//   const Application({
-//     super.key,
-//     this.title = '',
-//     required this.analytics,
-//     required this.cache,
-//     required this.console,
-//     required this.pages,
-//     required this.persistent,
-//     required this.routeHandler,
-//     required this.theme,
-//   });
-//
-//   final Analytics analytics;
-//
-//   final Cache cache;
-//
-//   final LogConsole console;
-//
-//   final List<PageDelegate> pages;
-//
-//   final PersistentCache persistent;
-//
-//   final RouteHandler routeHandler;
-//
-//   final List<Service<dynamic, dynamic>> services;
-//
-//   final String title;
-//
-//   final ThemeData theme;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ApplicationScope(
-//         analytics: analytics,
-//         cache: cache,
-//         console: console,
-//         persistent: persistent,
-//         routeHandler: routeHandler,
-//         child: MaterialApp.router(
-//           title: title,
-//           theme: theme,
-//           routerConfig: routeHandler.config,
-//         )
-//     );
-//   }
-// }

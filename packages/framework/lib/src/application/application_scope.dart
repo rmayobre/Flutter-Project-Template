@@ -80,9 +80,9 @@ extension AppScopeExtensions on BuildContext {
     return false;
   }
 
-  Future<T>? future<T>() => app.futures[T]?.model as Future<T>;
+  Future<T> future<T>() => app.futures[T]!.model as Future<T>;
 
-  Stream<T>? stream<T>() => app.streams[T]?.model as Stream<T>;
+  Stream<T> stream<T>() => app.streams[T]!.model as Stream<T>;
 
-  StateListenable<T>? state<T>() => app.states[T]?.model as StateListenable<T>;
+  StateListenable<T> state<T>() => app.states[T]!.model as StateListenable<T>;
 }

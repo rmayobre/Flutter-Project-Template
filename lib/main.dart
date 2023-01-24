@@ -5,6 +5,23 @@ import 'package:services/authentication.dart';
 import 'package:services/generator.dart';
 import 'package:toolbox/toolbox.dart';
 
+/// How redirects work for the application.
+String? onRedirect(
+    BuildContext context,
+    StateType authState,
+    RouteInfo info,
+) {
+  if (authState == StateType.empty || authState == StateType.failed) {
+    if (info.path != loginPath) {
+      return loginPath;
+    }
+  }
+  if (authState == StateType.loaded && info.path == loginPath) {
+    return homePath;
+  }
+  return null;
+}
+
 void main() => runOfflineApp();
 
 void runFirebaseApp() async {
@@ -17,7 +34,8 @@ void runFirebaseApp() async {
         persistent: persistentCache,
         routeHandler: ToolboxRouteHandler(
           loginPath: loginPath,
-          authState: authService.model,
+          onRedirect: onRedirect,
+          authStateListenable: authService.model,
           errorPage: ErrorPageWidget.delegate,
           pages: pageRegistry,
         ),
@@ -37,7 +55,8 @@ void runOfflineApp() {
         console: ToolboxConsole(),
         routeHandler: ToolboxRouteHandler(
           loginPath: loginPath,
-          authState: authService.model,
+          onRedirect: onRedirect,
+          authStateListenable: authService.model,
           errorPage: ErrorPageWidget.delegate,
           pages: pageRegistry,
         ),

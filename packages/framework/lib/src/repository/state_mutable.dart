@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import 'repo_state.dart';
 import 'state_listenable.dart';
 
 abstract class StateMutable<T> extends StateListenable<T> {
@@ -8,7 +9,7 @@ abstract class StateMutable<T> extends StateListenable<T> {
   void empty();
 
   /// Set state to [StateType.loaded] and set a value.
-  void loaded(T value);
+  void loaded(T data);
 
   /// Set state to [StateType.loading]. [value] may be set to null.
   void loading();
@@ -20,35 +21,23 @@ abstract class StateMutable<T> extends StateListenable<T> {
 /// Standard implementation of a [StateListenable] with the mixin of a [ChangeNotifier].
 class StateNotifier<T> extends StateMutable<T> with ChangeNotifier {
 
+  StateNotifier._(this.value);
+  
   StateNotifier({
-    T? value,
+    T? data,
     Exception? exception,
     required StateType initialState,
-  }) : _value = value,
-        _exception = exception,
-        _type = initialState;
-
-  T? _value;
-
-  Exception? _exception;
-
-  StateType _type;
+  }) : this._(RepoState(type: initialState, data: data, exception: exception));
 
   @override
-  T? get value => _value;
-
-  @override
-  Exception? get exception => _exception;
-
-  @override
-  StateType get type => _type;
+  RepoState<T> value;
 
   @override
   void empty() => _update(type: StateType.empty);
 
   @override
-  void loaded(T value) => _update(
-    value: value,
+  void loaded(T data) => _update(
+    data: data,
     type: StateType.loaded,
   );
 
@@ -61,10 +50,8 @@ class StateNotifier<T> extends StateMutable<T> with ChangeNotifier {
     type: StateType.failed,
   );
 
-  void _update({T? value, Exception? exception, required StateType type}) {
-    _value = value;
-    _exception = exception;
-    _type = type;
+  void _update({T? data, Exception? exception, required StateType type}) {
+    value = RepoState(type: type, data: data, exception: exception);
     notifyListeners();
   }
 }

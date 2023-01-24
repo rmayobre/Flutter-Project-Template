@@ -7,6 +7,7 @@ import 'package:pages/src/login/login_page.dart';
 export 'src/error/error_page.dart';
 
 const String loginPath = LoginPage.path;
+const String homePath = OverviewPage.path;
 
 final List<PageDelegate> pageRegistry = [
   LayoutPage(

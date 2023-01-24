@@ -11,7 +11,7 @@ class OfflineAuthService extends StatefulService<AuthEvent, Session> {
     String? sessionId,
   }) : _authDelay = authDelay,
         model = sessionId != null
-            ? StateNotifier(initialState: StateType.loaded, value: Session(id: sessionId),)
+            ? StateNotifier(initialState: StateType.loaded, data: Session(id: sessionId),)
             : StateNotifier(initialState: StateType.empty);
 
   /// Delay in seconds.

@@ -4,6 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:framework/routing.dart';
 import 'package:go_router/go_router.dart';
 
+import 'route_info.dart';
+
+typedef RedirectHandler = String? Function(
+    BuildContext context,
+    StateType authState,
+    RouteInfo info,
+);
+
 class ToolboxRouteHandler implements RouteHandler {
 
   ToolboxRouteHandler._(this.config);
@@ -11,7 +19,8 @@ class ToolboxRouteHandler implements RouteHandler {
   factory ToolboxRouteHandler({
     String homePath = '/',
     required String loginPath,
-    required StateListenable<dynamic> authState,
+    required StateListenable<dynamic> authStateListenable,
+    required RedirectHandler onRedirect,
     required ErrorPage errorPage,
     required List<PageDelegate> pages,
   }) {
@@ -20,23 +29,24 @@ class ToolboxRouteHandler implements RouteHandler {
       GoRouter(
         navigatorKey: rootKey,
         initialLocation: homePath,
-        refreshListenable: authState,
+        refreshListenable: authStateListenable,
         errorPageBuilder: (context, state) => errorPage.toPage(context, state),
         routes: createRoutes(rootKey, pages),
-        redirect: (context, state) => _onRedirect(authState, loginPath),
+        redirect: (context, state) => onRedirect(
+          context,
+          authStateListenable.value.type,
+          RouteInfo(
+            path: state.location,
+            pathParams: state.params,
+            queryParams: state.queryParams,
+          ),
+        ),
       ),
     );
   }
 
   static List<RouteBase> createRoutes(GlobalKey<NavigatorState> rootKey, List<PageDelegate> delegates) =>
       delegates.map((page) => page.toRoute(rootKey, null)).toList(growable: false);
-
-  static String? _onRedirect(StateListenable<dynamic> authState, String loginPath) {
-    if (authState.type != StateType.loaded) {
-      return loginPath;
-    }
-    return null;
-  }
 
   @override
   final RouterConfig<Object> config;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:framework/page.dart';
+import 'package:framework/service.dart';
 import 'package:models/authentication.dart';
-import 'package:pages/src/home/home_layout.dart';
 
 class LoginPage extends StatelessWidget {
 
@@ -19,23 +19,18 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = context.state<Session>();
-    if (state?.type == StateType.loaded) {
-      context.to(OverviewPage.name);
-      return Container(); // Blank widget for page transitions.
-    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login Page'),
       ),
-      body: state?.type == StateType.loading
-          ? const Center(child: CircularProgressIndicator(color: Colors.blue,),)
-          : _LoginForm(),
+      body: const _LoginForm(),
     );
   }
 }
 
 class _LoginForm extends StatefulWidget {
+
+  const _LoginForm();
 
   @override
   _LoginState createState() => _LoginState();
@@ -48,6 +43,22 @@ class _LoginState extends State<_LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: context.state<Session>(),
+      builder: (context, state, child) {
+        switch(state.type) {
+          case StateType.empty:
+            return _buildForm();
+          case StateType.failed:
+            return _buildForm();
+          default:
+            return const Center(child: CircularProgressIndicator(color: Colors.blue,),);
+        }
+      },
+    );
+  }
+
+  Widget _buildForm() {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -80,7 +91,7 @@ class _LoginState extends State<_LoginForm> {
             onPressed: () {
               context.emit(
                 AuthEvent.login(
-                  email: _email, 
+                  email: _email,
                   password: _password,
                 ),
               );

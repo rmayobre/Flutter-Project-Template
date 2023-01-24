@@ -1,4 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
+import 'package:framework/src/repository/repo_state.dart';
 
 import 'repository.dart';
 
@@ -8,45 +9,36 @@ typedef OnLoadedCallback<R, T> = R Function(T value);
 typedef OnErrorCallback<R> = R Function(Exception? exception);
 
 /// Interface for the State of a [Repository].
-abstract class StateListenable<T> implements Listenable {
-
-  /// The current value held by the [Repository].
-  T? get value;
-
-  /// The exception thrown while fetching data.
-  Exception? get exception;
-
-  /// Marks the type of state the [Repository] is in.
-  StateType get type;
+abstract class StateListenable<T> implements ValueListenable<RepoState<T>> {
 
   /// Runs this callback if the state is [StateType.empty].
   void onEmpty(OnEmptyCallback<void> handle) {
-    if (type == StateType.empty) {
+    if (value.type == StateType.empty) {
       handle();
     }
   }
 
   /// Runs this callback if the state is [StateType.loading].
   void onLoading(OnLoadingCallback<void> handle) {
-    if (type == StateType.loading) {
+    if (value.type == StateType.loading) {
       handle();
     }
   }
 
   /// Runs this callback if the state is [StateType.loaded].
   void onLoaded(OnLoadedCallback<void, T> handle) {
-    if (type == StateType.loaded) {
-      var val = value;
-      if (val != null) {
-        handle(val);
+    if (value.type == StateType.loaded) {
+      var data = value.data;
+      if (data != null) {
+        handle(data);
       }
     }
   }
 
   /// Runs this callback if the state is [StateType.failed].
   void onFailed(OnErrorCallback<void> handle) {
-    if (type == StateType.failed) {
-      handle(exception);
+    if (value.type == StateType.failed) {
+      handle(value.exception);
     }
   }
 
@@ -57,29 +49,15 @@ abstract class StateListenable<T> implements Listenable {
     required OnLoadedCallback<R, T> onLoaded,
     required OnErrorCallback<R> onError,
   }) {
-    switch(type) {
+    switch(value.type) {
       case StateType.empty:
         return onEmpty();
       case StateType.loading:
         return onLoading();
       case StateType.loaded:
-        return onLoaded(value as T);
+        return onLoaded(value.data as T);
       case StateType.failed:
-        return onError(exception);
+        return onError(value.exception);
     }
   }
-}
-
-enum StateType {
-  /// The [Repository] has no data. This can also act as the initial state.
-  empty,
-
-  /// The [Repository] is loading it's data.
-  loading,
-
-  /// The [Repository] is done loading, and data may be available.
-  loaded,
-
-  /// The [Repository] failed to collect data. This typically results in an [Exception].
-  failed;
 }
