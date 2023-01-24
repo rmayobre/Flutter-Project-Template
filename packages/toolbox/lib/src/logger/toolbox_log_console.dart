@@ -1,4 +1,4 @@
-import 'package:framework/console.dart';
+import 'package:framework/logging.dart';
 import 'package:logger/logger.dart';
 
 class ToolboxConsole implements LogConsole {
@@ -27,5 +27,4 @@ class ToolboxConsole implements LogConsole {
         break;
     }
   }
-
 }

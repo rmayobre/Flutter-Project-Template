@@ -1,4 +1,4 @@
-import 'storage.dart';
+import 'package:framework/storage.dart';
 
 /// A wrapper for a [Map] object that will map objects based on type.
 class Cache implements Storage {

@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:framework/src/repository/repo_state.dart';
 
-import 'repository.dart';
-
 typedef OnEmptyCallback<R> = R Function();
 typedef OnLoadingCallback<R> = R Function();
 typedef OnLoadedCallback<R, T> = R Function(T value);

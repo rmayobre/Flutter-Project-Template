@@ -1,8 +1,9 @@
 library pages;
 
-import 'package:framework/page_registry.dart';
-import 'package:pages/src/home/home_layout.dart';
-import 'package:pages/src/login/login_page.dart';
+import 'package:framework/page.dart';
+
+import 'src/home/home_layout.dart';
+import 'src/login/login_page.dart';
 
 export 'src/error/error_page.dart';
 

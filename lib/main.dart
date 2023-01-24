@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:framework/application.dart';
+import 'package:framework/main.dart';
 import 'package:pages/pages.dart';
 import 'package:services/authentication.dart';
 import 'package:services/generator.dart';

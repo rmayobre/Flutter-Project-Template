@@ -1,3 +1,5 @@
+library event_emitter;
+
 abstract class EventEmitter<T> {
 
   final Type eventType = T;

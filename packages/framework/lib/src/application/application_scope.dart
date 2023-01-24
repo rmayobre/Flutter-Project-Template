@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:framework/analytics.dart';
+import 'package:framework/event_emitter.dart';
+import 'package:framework/logging.dart';
 import 'package:framework/repository.dart';
-
-import '../analytics/analytics.dart';
-import '../event/event_emitter.dart';
-import '../logger/log_console.dart';
-import '../page/page_scope.dart';
-import '../routing/route_handler.dart';
-import '../storage/cache.dart';
-import '../storage/persistent_cache.dart';
+import 'package:framework/routing.dart';
+import 'package:framework/storage.dart';
 
 /// Application level scope. This provides everything the entire application will
 /// ever need. This scope does not change until the app is killed and reloaded.
@@ -56,6 +53,7 @@ class ApplicationScope extends InheritedWidget {
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 }
 
+/// Extensions for Pages
 extension AppScopeExtensions on BuildContext {
 
   ApplicationScope get app => ApplicationScope.of(this);

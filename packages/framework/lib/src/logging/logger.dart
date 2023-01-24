@@ -6,7 +6,7 @@ import 'log_type.dart';
 /// default value set in the constructor of this class. Default tag value typically
 /// identifies the current page of the application.
 abstract class Logger {
-  
+
   factory Logger({
     required String pageTag,
     required LogConsole console,

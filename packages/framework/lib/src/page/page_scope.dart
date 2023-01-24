@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:framework/src/logger/logger.dart';
 import 'package:framework/src/storage/cache.dart';
+
+import '../logging/logger.dart';
 
 /// A scope that represents the available resources within a Page.
 class PageScope extends InheritedWidget {
@@ -44,7 +45,8 @@ class PageScope extends InheritedWidget {
       oldWidget.pathParams != pathParams || oldWidget.queryParams != queryParams;
 }
 
-extension PageExtension on BuildContext {
+/// Extensions for Pages
+extension PageExtensions on BuildContext {
 
   PageScope get page => PageScope.of(this);
 }

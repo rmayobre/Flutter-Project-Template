@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'storage.dart';
+import 'package:framework/storage.dart';
 
 abstract class PersistentCache implements Storage {
 

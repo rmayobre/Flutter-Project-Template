@@ -1,22 +1,9 @@
-library application;
-
 import 'package:flutter/material.dart';
-import 'package:framework/page.dart';
+import 'package:framework/analytics.dart';
+import 'package:framework/logging.dart';
+import 'package:framework/routing.dart';
 import 'package:framework/service.dart';
-import 'package:framework/src/analytics/analytics.dart';
-import 'package:framework/src/logger/log_console.dart';
-import 'package:framework/src/storage/cache.dart';
-import 'package:framework/src/storage/persistent_cache.dart';
-
-export 'package:framework/src/analytics/analytics.dart';
-export 'package:framework/src/application/application_scope.dart';
-export 'package:framework/src/logger/log_console.dart';
-export 'package:framework/src/page/page_delegate.dart';
-export 'package:framework/src/routing/route_handler.dart';
-export 'package:framework/src/repository/repo_state.dart';
-export 'package:framework/src/storage/cache.dart';
-export 'package:framework/src/storage/persistent_cache.dart';
-
+import 'package:framework/storage.dart';
 
 class Application extends StatefulWidget {
 
