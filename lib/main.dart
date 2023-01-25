@@ -36,7 +36,7 @@ void runProductionApp() async {
 /// Simple function to run an offline version of the application. This typically
 /// used for UI development/testing.
 void runOfflineApp() {
-  var authService = OfflineAuthService(authDelay: 3/*, sessionId: '123'*/);
+  var authService = OfflineAuthService(authDelay: 3, /*sessionId: '123'*/);
   runApp(
       Application.test(
         cache: const ToolboxCache(),

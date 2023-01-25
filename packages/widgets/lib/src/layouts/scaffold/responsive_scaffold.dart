@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:widgets/layouts.dart';
+
+import '../../screen.dart';
 
 part 'scaffold_with_nav_bar.dart';
 part 'scaffold_with_nav_column.dart';
@@ -42,45 +43,42 @@ class ResponsiveScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(
-      builder: (context, screen) {
-        switch(screen.type) {
-          case ScreenType.small:
-            return ScaffoldWithNavBar(
-              currentIndex: currentIndex,
-              onIndexChanged: onIndexChanged,
-              appBar: appBar,
-              destinations: destinations,
-              drawerHeader: drawerHeader,
-              drawerFooter: drawerFooter,
-              body: child,
-              bottomSheet: bottomSheet,
-            );
-          case ScreenType.medium:
-            return ScaffoldWithNavRail(
-              currentIndex: currentIndex,
-              onIndexChanged: onIndexChanged,
-              appBar: appBar,
-              destinations: destinations,
-              drawerHeader: drawerHeader,
-              drawerFooter: drawerFooter,
-              body: child,
-              bottomSheet: bottomSheet,
-            );
-          case ScreenType.large:
-            return ScaffoldWithNavColumn(
-              currentIndex: currentIndex,
-              onIndexChanged: onIndexChanged,
-              appBar: appBar,
-              destinations: destinations,
-              drawerHeader: drawerHeader,
-              drawerFooter: drawerFooter,
-              body: child,
-              bottomSheet: bottomSheet,
-            );
-        }
-      },
-    );
+    var screen = Screen.from(context);
+    switch(screen.type) {
+      case ScreenType.small:
+        return ScaffoldWithNavBar(
+          currentIndex: currentIndex,
+          onIndexChanged: onIndexChanged,
+          appBar: appBar,
+          destinations: destinations,
+          drawerHeader: drawerHeader,
+          drawerFooter: drawerFooter,
+          body: child,
+          bottomSheet: bottomSheet,
+        );
+      case ScreenType.medium:
+        return ScaffoldWithNavRail(
+          currentIndex: currentIndex,
+          onIndexChanged: onIndexChanged,
+          appBar: appBar,
+          destinations: destinations,
+          drawerHeader: drawerHeader,
+          drawerFooter: drawerFooter,
+          body: child,
+          bottomSheet: bottomSheet,
+        );
+      case ScreenType.large:
+        return ScaffoldWithNavColumn(
+          currentIndex: currentIndex,
+          onIndexChanged: onIndexChanged,
+          appBar: appBar,
+          destinations: destinations,
+          drawerHeader: drawerHeader,
+          drawerFooter: drawerFooter,
+          body: child,
+          bottomSheet: bottomSheet,
+        );
+    }
   }
 }
 
