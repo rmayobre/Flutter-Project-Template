@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/analytics.dart';
 import 'package:framework/event_emitter.dart';
@@ -20,6 +21,7 @@ class ApplicationScope extends InheritedWidget {
     required this.console,
     required this.emitters,
     required this.futures,
+    required this.values,
     required this.persistent,
     required this.routeHandler,
     required this.streams,
@@ -40,6 +42,8 @@ class ApplicationScope extends InheritedWidget {
   final Map<Type, EventEmitter<dynamic>> emitters;
 
   final Map<Type, FutureRepository<dynamic>> futures;
+
+  final Map<Type, ListenableRepository<dynamic>> values;
 
   final PersistentCache persistent;
 
@@ -79,6 +83,8 @@ extension AppScopeExtensions on BuildContext {
   }
 
   Future<T> future<T>() => app.futures[T]!.model as Future<T>;
+
+  ValueListenable<T> value<T>() => app.values[T]!.model as ValueListenable<T>;
 
   Stream<T> stream<T>() => app.streams[T]!.model as Stream<T>;
 

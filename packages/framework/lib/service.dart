@@ -1,5 +1,7 @@
 library service;
 
+import 'package:flutter/foundation.dart';
+
 import 'event_emitter.dart';
 import 'repository.dart';
 
@@ -14,19 +16,30 @@ abstract class Service<E, M> implements EventEmitter<E>, Repository<M> {
 
 }
 
-abstract class FutureService<E, M> extends Service<E, Future<M>> with FutureRepository<M> {
+abstract class FutureService<E, M> extends Service<E, Future<M>>
+    with FutureRepository<M> {
 
   @override
   final Type eventType = E;
 }
 
-abstract class StreamService<E, M> extends Service<E, Stream<M>> with StreamRepository<M> {
+abstract class ListenableService<E, M> extends Service<E, ValueListenable<M>>
+    with ListenableRepository<M> {
 
   @override
   final Type eventType = E;
 }
 
-abstract class StatefulService<E, M> extends Service<E, StateListenable<M>> with StatefulRepository<M> {
+
+abstract class StreamService<E, M> extends Service<E, Stream<M>>
+    with StreamRepository<M> {
+
+  @override
+  final Type eventType = E;
+}
+
+abstract class StatefulService<E, M> extends Service<E, StateListenable<M>>
+    with StatefulRepository<M> {
 
   @override
   final Type eventType = E;

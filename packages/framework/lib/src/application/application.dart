@@ -9,7 +9,9 @@ class Application extends StatefulWidget {
 
   const Application({
     super.key,
+    this.darkTheme,
     this.title = '',
+    this.themeMode = ThemeMode.system,
     required this.analytics,
     required this.cache,
     required this.console,
@@ -17,38 +19,40 @@ class Application extends StatefulWidget {
     required this.routeHandler,
     required this.services,
     required this.theme,
-    this.darkTheme,
   });
 
   factory Application.test({
+    ThemeData? darkTheme,
     String title = '',
+    ThemeMode themeMode = ThemeMode.system,
     required Cache cache,
     required LogConsole console,
     required RouteHandler routeHandler,
     required List<Service<dynamic, dynamic>> services,
     required ThemeData theme,
-    ThemeData? darkTheme,
   }) {
 
     return Application(
       analytics: Analytics.offline(),
       cache: cache,
       console: console,
+      darkTheme: darkTheme,
       persistent: PersistentCache.noStorage(),
       routeHandler: routeHandler,
       theme: theme,
-      darkTheme: darkTheme,
+      themeMode: themeMode,
+      title: title,
       services: services,
     );
   }
-
-  final String title;
 
   final Analytics analytics;
 
   final Cache cache;
 
   final LogConsole console;
+
+  final ThemeData? darkTheme;
 
   final PersistentCache persistent;
 
@@ -58,7 +62,9 @@ class Application extends StatefulWidget {
 
   final ThemeData theme;
 
-  final ThemeData? darkTheme;
+  final ThemeMode themeMode;
+
+  final String title;
 
   @override
   State<StatefulWidget> createState() => _ApplicationState();
@@ -78,11 +84,13 @@ class _ApplicationState extends State<Application> {
   Widget build(BuildContext context) {
     Map<Type, EventEmitter<dynamic>> emitters = {};
     Map<Type, FutureRepository<dynamic>> futures = {};
+    Map<Type, ListenableRepository<dynamic>> values = {};
     Map<Type, StreamRepository<dynamic>> streams = {};
     Map<Type, StatefulRepository<dynamic>> states = {};
     for (var service in widget.services) {
       Repository<dynamic> repo = service;
       if (repo is FutureRepository<dynamic>) { futures[repo.modelType] = repo; }
+      if (repo is ListenableRepository<dynamic>) { values[repo.modelType] = repo; }
       if (repo is StreamRepository<dynamic>) { streams[repo.modelType] = repo; }
       if (repo is StatefulRepository<dynamic>) { states[repo.modelType] = repo; }
       emitters[service.eventType] = service;
@@ -94,12 +102,13 @@ class _ApplicationState extends State<Application> {
       console: widget.console,
       emitters: emitters,
       futures: futures,
+      values: values,
       persistent: widget.persistent,
       routeHandler: widget.routeHandler,
       streams: streams,
       states: states,
       child: MaterialApp.router(
-        // themeMode: ThemeMode.dark,
+        themeMode: widget.themeMode,
         title: widget.title,
         theme: widget.theme,
         darkTheme: widget.darkTheme,

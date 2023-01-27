@@ -73,15 +73,11 @@ class _AccountDetailsRow extends StatelessWidget {
         children: [
           Text(
             name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 32,
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.bold
             ),
           ),
-          Text(
-            profession,
-            style: const TextStyle(fontSize: 24),
-          ),
+          Text(profession, style: Theme.of(context).textTheme.titleLarge),
         ],
       ),
     );
@@ -96,20 +92,14 @@ class _AboutDescriptionRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
           'About',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 32
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.bold
           ),
         ),
-        Text(
-          _about,
-          style: TextStyle(
-              fontSize: 16
-          ),
-        ),
+        Text(_about, style: Theme.of(context).textTheme.bodyLarge),
       ],
     );
   }

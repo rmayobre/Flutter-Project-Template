@@ -1,5 +1,8 @@
 library repository;
 
+import 'package:flutter/foundation.dart';
+import 'package:framework/main.dart';
+
 import 'src/repository/state_listenable.dart';
 
 export 'src/repository/repo_state.dart';
@@ -14,6 +17,12 @@ abstract class Repository<T> {
 }
 
 mixin FutureRepository<T> implements Repository<Future<T>> {
+
+  @override
+  final Type modelType = T;
+}
+
+mixin ListenableRepository<T> implements Repository<ValueListenable<T>> {
 
   @override
   final Type modelType = T;

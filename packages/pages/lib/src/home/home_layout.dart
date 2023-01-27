@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/page.dart';
 import 'package:models/content.dart';
+import 'package:models/theme.dart';
 import 'package:widgets/cards.dart';
 import 'package:widgets/layouts.dart';
 import 'package:widgets/modals.dart';
@@ -68,7 +69,21 @@ class HomeLayout extends StatelessWidget {
         onIndexChanged: (index) => _onNavigate(context, index),
         destinations: _homeDestinations,
         appBar: AppBar(
-          title: Text(context.pageName),
+          title: Center(child: Text(context.pageName)),
+        ),
+        fab: FloatingActionButton(
+          tooltip: "Change Theme",
+          onPressed: () {
+            var themeMode = context.value<ThemeMode>().value;
+            context.emit(
+              ThemeEvent.change(
+                mode: themeMode != ThemeMode.dark
+                    ? ThemeMode.dark
+                    : ThemeMode.light,
+              ),
+            );
+          },
+          child: const Icon(Icons.change_circle),
         ),
         child: child,
       ),

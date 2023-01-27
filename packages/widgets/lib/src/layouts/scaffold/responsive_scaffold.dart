@@ -53,6 +53,7 @@ class ResponsiveScaffold extends StatelessWidget {
           destinations: destinations,
           drawerHeader: drawerHeader,
           drawerFooter: drawerFooter,
+          fab: fab,
           body: child,
           bottomSheet: bottomSheet,
         );
@@ -64,6 +65,7 @@ class ResponsiveScaffold extends StatelessWidget {
           destinations: destinations,
           drawerHeader: drawerHeader,
           drawerFooter: drawerFooter,
+          fab: fab,
           body: child,
           bottomSheet: bottomSheet,
         );
@@ -75,6 +77,7 @@ class ResponsiveScaffold extends StatelessWidget {
           destinations: destinations,
           drawerHeader: drawerHeader,
           drawerFooter: drawerFooter,
+          fab: fab,
           body: child,
           bottomSheet: bottomSheet,
         );
