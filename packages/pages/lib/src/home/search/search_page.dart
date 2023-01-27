@@ -74,15 +74,12 @@ class _SearchBarSliver extends SliverPersistentHeaderDelegate {
       child: TextFormField(
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Theme.of(context).colorScheme.surface,
           border: inputBorder,
           enabledBorder: inputBorder,
           hintText: 'Search content...',
           contentPadding: const EdgeInsets.symmetric(vertical: 20),
-          prefixIcon: const Icon(
-            Icons.search,
-            color: Colors.grey,
-          ),
+          prefixIcon: const Icon(Icons.search),
         ),
         onFieldSubmitted: onSearch,
       ),
