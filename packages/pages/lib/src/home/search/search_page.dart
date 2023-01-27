@@ -107,50 +107,17 @@ class _SearchableCard extends StatelessWidget {
       valueListenable: inputListenable,
       builder: (context, value, child) {
         var input = inputListenable.value;
-        if (input == null) {
-          return _buildCard(context);
-        } else if (content.title.contains(input)) {
-          return _buildCard(context);
-        } else if (content.body.contains(input)) {
-          return _buildCard(context);
-        } else {
-          return const SizedBox();
+        if (input == null
+            || content.title.contains(input)
+            || content.body.contains(input)) {
+          // return _buildCard(context);
+          return TextContentCard.filled(
+            body: content.body,
+            title: content.title,
+          );
         }
+        return const SizedBox();
       },
-    );
-  }
-
-  Widget _buildCard(BuildContext context) {
-    return Card(
-      elevation: 0,
-      color: content.color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              content.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              content.body,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -17,6 +17,7 @@ class Application extends StatefulWidget {
     required this.routeHandler,
     required this.services,
     required this.theme,
+    this.darkTheme,
   });
 
   factory Application.test({
@@ -26,6 +27,7 @@ class Application extends StatefulWidget {
     required RouteHandler routeHandler,
     required List<Service<dynamic, dynamic>> services,
     required ThemeData theme,
+    ThemeData? darkTheme,
   }) {
 
     return Application(
@@ -35,6 +37,7 @@ class Application extends StatefulWidget {
       persistent: PersistentCache.noStorage(),
       routeHandler: routeHandler,
       theme: theme,
+      darkTheme: darkTheme,
       services: services,
     );
   }
@@ -54,6 +57,8 @@ class Application extends StatefulWidget {
   final List<Service<dynamic, dynamic>> services;
 
   final ThemeData theme;
+
+  final ThemeData? darkTheme;
 
   @override
   State<StatefulWidget> createState() => _ApplicationState();
@@ -94,8 +99,10 @@ class _ApplicationState extends State<Application> {
       streams: streams,
       states: states,
       child: MaterialApp.router(
+        // themeMode: ThemeMode.dark,
         title: widget.title,
         theme: widget.theme,
+        darkTheme: widget.darkTheme,
         routerConfig: widget.routeHandler.config,
       ),
     );

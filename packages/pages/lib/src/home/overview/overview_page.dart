@@ -19,7 +19,11 @@ class OverviewPage extends StatelessWidget {
           return ListView.builder(
             itemCount: contentBulk.length,
             itemBuilder: (BuildContext context, int index) {
-              return _OverviewCard(content: contentBulk[index]);
+              var content = contentBulk[index];
+              return TextContentCard.filled(
+                body: content.body,
+                title: content.title,
+              );
             },
           );
         } else {
@@ -28,47 +32,6 @@ class OverviewPage extends StatelessWidget {
           );
         }
       },
-    );
-  }
-}
-
-class _OverviewCard extends StatelessWidget {
-
-  const _OverviewCard({required this.content});
-
-  final Content content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: content.color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              content.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 32.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              content.body,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

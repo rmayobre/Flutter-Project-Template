@@ -19,6 +19,8 @@ dependencies:
     path: packages/pages
   services:
     path: packages/services
+  theme:
+    path: packages/theme
   toolbox:
     path: packages/toolbox
 

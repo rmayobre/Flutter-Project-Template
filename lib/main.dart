@@ -4,6 +4,7 @@ import 'package:pages/pages.dart';
 import 'package:services/authentication.dart';
 import 'package:services/generator.dart';
 import 'package:toolbox/toolbox.dart';
+import 'package:theme/theme.dart';
 
 void main() => runOfflineApp();
 
@@ -24,10 +25,8 @@ void runProductionApp() async {
           errorPage: ErrorPageWidget.delegate,
           pages: pageRegistry,
         ),
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
-        ),
+        theme: lightThemeData,
+        darkTheme: darkThemeData,
         services: [authService],
       )
   );
@@ -36,7 +35,7 @@ void runProductionApp() async {
 /// Simple function to run an offline version of the application. This typically
 /// used for UI development/testing.
 void runOfflineApp() {
-  var authService = OfflineAuthService(authDelay: 3, /*sessionId: '123'*/);
+  var authService = OfflineAuthService(authDelay: 3, sessionId: '123');
   runApp(
       Application.test(
         cache: const ToolboxCache(),
@@ -48,11 +47,8 @@ void runOfflineApp() {
           errorPage: ErrorPageWidget.delegate,
           pages: pageRegistry,
         ),
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
-          scaffoldBackgroundColor: Colors.black12
-        ),
+        theme: lightThemeData,
+        darkTheme: darkThemeData,
         services: [
           authService,
           ContentGenerator(delay: 3),
@@ -65,8 +61,7 @@ void runOfflineApp() {
 String? onRedirect(
     BuildContext context,
     StateType authState,
-    RouteInfo info,
-    ) {
+    RouteInfo info,) {
   if (authState == StateType.empty || authState == StateType.failed) {
     if (info.path != loginPath) {
       return loginPath;
