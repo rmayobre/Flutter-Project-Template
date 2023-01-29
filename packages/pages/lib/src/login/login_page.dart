@@ -88,7 +88,7 @@ class _LoginState extends State<_LoginForm> {
               ),
             ),
             onPressed: () {
-              context.emit(
+              context.dispatch(
                 AuthEvent.login(
                   email: _email,
                   password: _password,

@@ -19,39 +19,32 @@ abstract class StateMutable<T> extends StateListenable<T> {
 }
 
 /// Standard implementation of a [StateListenable] with the mixin of a [ChangeNotifier].
-class StateNotifier<T> extends StateMutable<T> with ChangeNotifier {
+class StateNotifier<T> with ChangeNotifier implements StateMutable<T> {
 
   StateNotifier._(this.value);
-  
-  StateNotifier({
-    T? data,
-    Exception? exception,
-    required StateType initialState,
-  }) : this._(RepoState(type: initialState, data: data, exception: exception));
+
+  factory StateNotifier.empty() => StateNotifier._(RepoState.empty());
+  factory StateNotifier.loading() => StateNotifier._(RepoState.loading());
+  factory StateNotifier.loaded(T value) => StateNotifier._(RepoState.loaded(value));
+  factory StateNotifier.failed(Exception? error) => StateNotifier._(RepoState.failed(error));
 
   @override
   RepoState<T> value;
 
   @override
-  void empty() => _update(type: StateType.empty);
+  void empty() => _update(RepoState.empty());
 
   @override
-  void loaded(T data) => _update(
-    data: data,
-    type: StateType.loaded,
-  );
+  void loaded(T data) => _update(RepoState.loaded(data));
 
   @override
-  void loading() => _update(type: StateType.loading);
+  void loading() => _update(RepoState.loading());
 
   @override
-  void failed(Exception? exception) => _update(
-    exception: exception,
-    type: StateType.failed,
-  );
+  void failed(Exception? exception) => _update(RepoState.failed(exception));
 
-  void _update({T? data, Exception? exception, required StateType type}) {
-    value = RepoState(type: type, data: data, exception: exception);
+  void _update(RepoState<T> state) {
+    value = state;
     notifyListeners();
   }
 }

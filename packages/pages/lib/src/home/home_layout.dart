@@ -48,7 +48,6 @@ class HomeLayout extends StatelessWidget {
 
   /// Handles navigation for each page.
   static void _onNavigate(BuildContext context, int index) {
-    context.page.logger.i("Navigation to page number: $index");
     switch (index) {
       case 1:
         return context.to(SearchPage.name);
@@ -75,7 +74,7 @@ class HomeLayout extends StatelessWidget {
           tooltip: "Change Theme",
           onPressed: () {
             var themeMode = context.value<ThemeMode>().value;
-            context.emit(
+            context.dispatch(
               ThemeEvent.change(
                 mode: themeMode != ThemeMode.dark
                     ? ThemeMode.dark

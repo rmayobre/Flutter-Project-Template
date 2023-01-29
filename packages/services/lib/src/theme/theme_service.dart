@@ -6,28 +6,19 @@ import 'package:models/theme.dart';
 
 class ThemeService extends ListenableService<ThemeEvent, ThemeMode> {
 
-  ThemeService({ThemeMode initialMode = ThemeMode.system})
-      : model = ValueNotifier(initialMode) {
-    _eventController.stream.listen((event) {
-      if (event is ChangeTheme) {
-        model.value = event.mode;
-      }
-    });
-  }
-
-  final StreamController<ThemeEvent> _eventController = StreamController.broadcast();
+  ThemeService(super.dispatcher, {ThemeMode initialMode = ThemeMode.system})
+      : model = ValueNotifier(initialMode);
 
   @override
   final ValueNotifier<ThemeMode> model;
 
   @override
-  void emit(ThemeEvent event) {
-    _eventController.add(event);
+  void onEvent(ThemeEvent event) async {
+    if (event is ChangeTheme) {
+      model.value = event.mode;
+    }
   }
 
   @override
-  Future close() async {
-    await _eventController.close();
-  }
-
+  Future close() => Future.value(null);
 }

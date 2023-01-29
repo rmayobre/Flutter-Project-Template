@@ -1,27 +1,27 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:framework/service.dart';
+import 'package:framework/services.dart';
 import 'package:models/authentication.dart';
 
 class OfflineAuthService extends StatefulService<AuthEvent, Session> {
 
-  OfflineAuthService({
+  OfflineAuthService(super.dispatcher, {
     int authDelay = 0,
     String? sessionId,
   }) : _authDelay = authDelay,
         model = sessionId != null
-            ? StateNotifier(initialState: StateType.loaded, data: Session(id: sessionId),)
-            : StateNotifier(initialState: StateType.empty);
+            ? StateNotifier.loaded(Session(id: sessionId))
+            : StateNotifier.empty();
 
   /// Delay in seconds.
   final int _authDelay;
 
   @override
   final StateMutable<Session> model;
-  
+
   @override
-  void emit(AuthEvent event) {
+  void onEvent(AuthEvent event) async {
     if (event is Login) {
       _login(email: event.email, password: event.password);
     } else if (event is Logout) {

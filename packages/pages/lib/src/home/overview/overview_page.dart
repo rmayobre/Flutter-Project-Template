@@ -10,7 +10,7 @@ class OverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.emit<ContentEvent>(ContentEvent.generate(size: 20));
+    context.dispatch(ContentEvent.generate(size: 20));
     return StreamBuilder(
       stream: context.stream<ContentBulk>(),
       builder: (BuildContext context, AsyncSnapshot<ContentBulk> snapshot) {

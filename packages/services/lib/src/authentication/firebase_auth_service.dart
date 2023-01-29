@@ -1,29 +1,29 @@
 import 'dart:async';
 
-import 'package:framework/service.dart';
+import 'package:framework/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:models/authentication.dart';
 
 class FirebaseAuthService extends StatefulService<AuthEvent, Session> {
 
-  FirebaseAuthService() : _auth = FirebaseAuth.instance {
+  FirebaseAuthService(super.dispatcher) : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onStateChange);
   }
 
   final FirebaseAuth _auth;
 
   @override
-  final StateMutable<Session> model = StateNotifier(initialState: StateType.empty);
+  final StateMutable<Session> model = StateNotifier.empty();
 
   @override
-  void emit(AuthEvent event) {
+  void onEvent(AuthEvent event) async {
     if (event is Login) {
-      _login(
+      await _login(
         email: event.email,
         password: event.password,
       );
     } else if (event is Logout) {
-      _auth.signOut();
+      await _auth.signOut();
     }
   }
 
@@ -46,17 +46,17 @@ class FirebaseAuthService extends StatefulService<AuthEvent, Session> {
     }
   }
 
-  void _login({
+  Future<void> _login({
     required String email,
     required String password,
-  }) {
+  }) async {
     if (email.isEmpty || password.isEmpty) {
       model.failed(const AuthenticationException.message('Username or password is empty.'));
       return;
     }
     model.loading();
     try {
-      _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (exception) {
       model.failed(exception);
     }
