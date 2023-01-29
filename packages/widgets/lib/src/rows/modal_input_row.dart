@@ -33,13 +33,8 @@ class ModalInputRow extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                  style: const TextStyle(
-                    fontSize: d12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(value ?? ""),
+                Text(title, style: Theme.of(context).textTheme.labelLarge),
+                Text(value ?? "", style: Theme.of(context).textTheme.labelSmall),
               ],
             ),
           ],

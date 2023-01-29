@@ -11,33 +11,45 @@ const initialThemeMode = ThemeMode.light;
 void main() => runOfflineApp();
 
 /// Simple function to run a production application.
-// void runProductionApp() async {
-//   var authService = FirebaseAuthService();
-//   var persistentCache = await ToolboxPersistentCache.build();
-//   var themeService = ThemeService(initialMode: initialThemeMode);
-//   runApp(
-//       Application(
-//         analytics: ToolboxAnalytics(),
-//         cache: const ToolboxCache(),
-//         console: LogConsole.noLogs(),
-//         darkTheme: darkThemeData,
-//         persistent: persistentCache,
-//         routeHandler: ToolboxRouteHandler(
-//           loginPath: loginPath,
-//           onRedirect: onRedirect,
-//           authStateListenable: authService.model,
-//           errorPage: ErrorPageWidget.delegate,
-//           pages: pageRegistry,
-//         ),
-//         theme: lightThemeData,
-//         themeModeListenable: themeService.model,
-//         services: [
-//           authService,
-//           themeService,
-//         ],
-//       )
-//   );
-// }
+void runProductionApp() async {
+  var dispatcher = ToolboxEventDispatcher();
+  var authService = FirebaseAuthService(dispatcher);
+  var persistentCache = await ToolboxPersistentCache.build();
+  var themeService = ThemeService(dispatcher, initialMode: initialThemeMode);
+  List<Service<dynamic, dynamic>> services = [
+    authService,
+    ContentGenerator(dispatcher, delay: 3),
+    themeService,
+  ];
+  runApp(
+    ApplicationScope(
+      analytics: ToolboxAnalytics(),
+      cache: const ToolboxCache(),
+      console: ToolboxConsole(),
+      dispatcher: dispatcher,
+      persistent: persistentCache,
+      routeHandler: ToolboxRouteHandler(
+        loginPath: loginPath,
+        onRedirect: onRedirect,
+        authStateListenable: authService.model,
+        errorPage: ErrorPageWidget.delegate,
+        pages: pageRegistry,
+      ),
+      services: services,
+      child: Application(
+        title: 'Template Application',
+        darkTheme: darkThemeData,
+        theme: lightThemeData,
+        themeModeListenable: themeService.model,
+        onDispose: () async {
+          // Make sure to close the dispatcher and all services.
+          await dispatcher.close();
+          await Future.wait(services.map((service) => service.close()));
+        },
+      ),
+    ),
+  );
+}
 
 /// Simple function to run an offline version of the application. This typically
 /// used for UI development/testing.
@@ -76,30 +88,8 @@ void runOfflineApp() {
           await Future.wait(services.map((service) => service.close()));
         },
       ),
-    )
+    ),
   );
-  /*
-  runApp(
-      Application.test(
-        cache: const ToolboxCache(),
-        console: ToolboxConsole(),
-        darkTheme: darkThemeData,
-        routeHandler: ToolboxRouteHandler(
-          loginPath: loginPath,
-          onRedirect: onRedirect,
-          authStateListenable: authService.model,
-          errorPage: ErrorPageWidget.delegate,
-          pages: pageRegistry,
-        ),
-        theme: lightThemeData,
-        themeModeListenable: themeService.model,
-        services: [
-          authService,
-          ContentGenerator(delay: 3),
-          themeService
-        ],
-      )
-  );*/
 }
 
 /// How redirects work for the application.

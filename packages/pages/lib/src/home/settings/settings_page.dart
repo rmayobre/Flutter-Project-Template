@@ -21,9 +21,9 @@ class SettingsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('Common'),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text('Common', style: Theme.of(context).textTheme.titleSmall),
         ),
         _MultipleChoiceSettingsRow(
           icon: Icons.language,
@@ -31,9 +31,9 @@ class SettingsPage extends StatelessWidget {
           currentChoice: _supportedLanguages[0],
           modalBuilder: (BuildContext context) => const InputFieldModel(),
         ),
-        const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Text('Account'),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text('Account', style: Theme.of(context).textTheme.titleSmall),
         ),
         ModalInputRow(
           icon: Icons.phone,
@@ -50,9 +50,9 @@ class SettingsPage extends StatelessWidget {
           title: 'Sign Out',
           builder: (BuildContext context) => const InputFieldModel(),
         ),
-        const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Text('Security'),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text('Security', style: Theme.of(context).textTheme.titleSmall),
         ),
         const ToggleRow(
           icon: Icons.fingerprint,

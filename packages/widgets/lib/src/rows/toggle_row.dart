@@ -31,8 +31,8 @@ class ToggleRow extends StatelessWidget {
       child: Row(
         children: [
           if (icon != null) _buildIcon(icon!),
-          _buildTextBody(),
-          _buildSwitch()
+          _buildTextBody(context),
+          _buildSwitch(),
         ],
       ),
     );
@@ -45,13 +45,13 @@ class ToggleRow extends StatelessWidget {
     );
   }
 
-  Widget _buildTextBody() {
+  Widget _buildTextBody(BuildContext context) {
     var sub = subTitle;
     if (sub != null) {
       return Column(
         children: [
-          Text(title),
-          Text(sub)
+          Text(title, style: Theme.of(context).textTheme.labelLarge),
+          Text(sub, style: Theme.of(context).textTheme.labelSmall),
         ],
       );
     }
