@@ -1,79 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:widgets/constants.dart';
+import 'package:widgets/rows.dart';
 
 typedef OnToggleCallback = void Function(bool value);
 
 class ToggleRow extends StatelessWidget {
   
-  const ToggleRow({
-    super.key,
-    this.icon,
-    this.isActive = false,
-    this.onToggle,
-    this.subTitle,
+  const ToggleRow(this.initialState, {
+    super.key, 
+    this.icon, 
     required this.title,
+    this.subTitle,
+    required this.onToggle,
   });
   
   final IconData? icon;
-  
+
   final String title;
-  
+
   final String? subTitle;
-  
-  final bool isActive;
-  
-  final OnToggleCallback? onToggle;
+
+  final bool initialState;
+
+  final OnToggleCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: p16all,
-      child: Row(
-        children: [
-          if (icon != null) _buildIcon(icon!),
-          _buildTextBody(context),
-          _buildSwitch(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildIcon(IconData data) {
-    return Padding(
-      padding: p16right,
-      child: Icon(data),
-    );
-  }
-
-  Widget _buildTextBody(BuildContext context) {
-    var sub = subTitle;
-    if (sub != null) {
-      return Column(
-        children: [
-          Text(title, style: Theme.of(context).textTheme.labelLarge),
-          Text(sub, style: Theme.of(context).textTheme.labelSmall),
-        ],
-      );
-    }
-    return Text(title);
-  }
-
-  Widget _buildSwitch() {
-    ValueNotifier<bool> switchNotifier = ValueNotifier(isActive);
-    return Expanded(
-      flex: 1,
-      child: Container(
-        alignment: Alignment.centerRight,
-        child: ValueListenableBuilder(
-          valueListenable: switchNotifier,
-          builder: (BuildContext context, value, Widget? child) => Switch(
-            value: value,
-            onChanged: (newValue) {
-              switchNotifier.value = newValue;
-              onToggle?.call(newValue);
-            },
-          ),
-        ),
+    var state = initialState;
+    return DetailedRow(
+      leading: Icon(icon),
+      title: title,
+      subTitle: subTitle,
+      trailing: StatefulBuilder(
+        builder: (context, setState) {
+          return Switch.adaptive(
+            value: state,
+            onChanged: (isToggled) => setState(() {
+              state = isToggled;
+              onToggle(isToggled);
+            }),
+          );
+        },
       ),
     );
   }

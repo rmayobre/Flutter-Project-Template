@@ -21,42 +21,45 @@ class SettingsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text('Common', style: Theme.of(context).textTheme.titleSmall),
-        ),
+        const TextRow(title: 'Common'),
         _MultipleChoiceSettingsRow(
           icon: Icons.language,
           title: 'Language',
           currentChoice: _supportedLanguages[0],
           modalBuilder: (BuildContext context) => const InputFieldModel(),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('Account', style: Theme.of(context).textTheme.titleSmall),
-        ),
-        ModalInputRow(
-          icon: Icons.phone,
+        const TextRow(title: 'Account'),
+        DetailedRow(
+          leading: const Icon(Icons.phone),
           title: 'Phone Number',
-          builder: (BuildContext context) => const InputFieldModel(),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => showModal(
+            context: context,
+            builder: (BuildContext context) => const InputFieldModel(),
+          ),
         ),
-        ModalInputRow(
-          icon: Icons.email,
+        DetailedRow(
+          leading: const Icon(Icons.email),
           title: 'Email',
-          builder: (BuildContext context) => const InputFieldModel(),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => showModal(
+            context: context,
+            builder: (BuildContext context) => const InputFieldModel(),
+          ),
         ),
-        ModalInputRow(
-          icon: Icons.logout,
+        DetailedRow(
+          leading: const Icon(Icons.logout),
           title: 'Sign Out',
-          builder: (BuildContext context) => const InputFieldModel(),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => context.dispatch(AuthEvent.logout()),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('Security', style: Theme.of(context).textTheme.titleSmall),
-        ),
-        const ToggleRow(
+        const TextRow(title: 'Security'),
+        ToggleRow(false,
           icon: Icons.fingerprint,
           title: 'Use fingerprint',
+          onToggle: (isToggled) => context.page.logger.i(
+              'Fingerprint is ${isToggled ? 'enabled' : 'disabled'}'
+          ),
         ),
       ],
     );

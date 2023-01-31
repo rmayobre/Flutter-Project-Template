@@ -23,7 +23,7 @@ class OfflineAuthService extends StatefulService<AuthEvent, Session> {
   @override
   void onEvent(AuthEvent event) async {
     if (event is Login) {
-      _login(email: event.email, password: event.password);
+      await _login(email: event.email, password: event.password);
     } else if (event is Logout) {
       _logout();
     }
@@ -36,7 +36,7 @@ class OfflineAuthService extends StatefulService<AuthEvent, Session> {
     });
   }
 
-  void _login({required String email, required String password}) {
+  Future _login({required String email, required String password}) async {
     if (email.isEmpty || password.isEmpty) {
       model.failed(const AuthenticationException.message('Email or password was null.'));
       return;
@@ -46,14 +46,12 @@ class OfflineAuthService extends StatefulService<AuthEvent, Session> {
       id: Random.secure().nextInt(99999999).toString(),
       email: email,
     );
-    Future.delayed(Duration(seconds: _authDelay), () {
+    await Future.delayed(Duration(seconds: _authDelay), () {
       model.loaded(session);
     });
   }
 
   void _logout() {
-    Future.delayed(Duration(seconds: _authDelay), () {
-      model.empty();
-    });
+    model.empty();
   }
 }

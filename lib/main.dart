@@ -55,7 +55,7 @@ void runProductionApp() async {
 /// used for UI development/testing.
 void runOfflineApp() {
   var dispatcher = ToolboxEventDispatcher();
-  var authService = OfflineAuthService(dispatcher, authDelay: 3, sessionId: '123');
+  var authService = OfflineAuthService(dispatcher, authDelay: 3, sessionId: '123'); // comment out "sessionId" to show login screen.
   var themeService = ThemeService(dispatcher, initialMode: initialThemeMode);
   List<Service<dynamic, dynamic>> services = [
     authService,
