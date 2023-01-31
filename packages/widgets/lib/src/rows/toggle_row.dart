@@ -28,8 +28,8 @@ class ToggleRow extends StatelessWidget {
     var state = initialState;
     return DetailedRow(
       leading: Icon(icon),
-      title: title,
-      subTitle: subTitle,
+      header: title,
+      subHeader: subTitle,
       trailing: StatefulBuilder(
         builder: (context, setState) {
           return Switch.adaptive(

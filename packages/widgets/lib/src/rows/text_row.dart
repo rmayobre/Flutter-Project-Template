@@ -3,13 +3,12 @@ import 'package:widgets/constants.dart';
 
 class TextRow extends StatelessWidget {
 
-  const TextRow({
+  const TextRow(this.text, {
     super.key,
-    required this.title,
     this.crossAxisAlignment = CrossAxisAlignment.start,
   });
 
-  final String title;
+  final String text;
 
   final CrossAxisAlignment crossAxisAlignment;
 
@@ -20,7 +19,7 @@ class TextRow extends StatelessWidget {
       children: [
         Padding(
           padding: p16all,
-          child: Text(title,
+          child: Text(text,
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),

@@ -21,17 +21,17 @@ class SettingsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const TextRow(title: 'Common'),
+        const TextRow('Common'),
         _MultipleChoiceSettingsRow(
           icon: Icons.language,
           title: 'Language',
           currentChoice: _supportedLanguages[0],
           modalBuilder: (BuildContext context) => const InputFieldModel(),
         ),
-        const TextRow(title: 'Account'),
+        const TextRow('Account'),
         DetailedRow(
           leading: const Icon(Icons.phone),
-          title: 'Phone Number',
+          header: 'Phone Number',
           trailing: const Icon(Icons.chevron_right),
           onTap: () => showModal(
             context: context,
@@ -40,7 +40,7 @@ class SettingsPage extends StatelessWidget {
         ),
         DetailedRow(
           leading: const Icon(Icons.email),
-          title: 'Email',
+          header: 'Email',
           trailing: const Icon(Icons.chevron_right),
           onTap: () => showModal(
             context: context,
@@ -49,11 +49,11 @@ class SettingsPage extends StatelessWidget {
         ),
         DetailedRow(
           leading: const Icon(Icons.logout),
-          title: 'Sign Out',
+          header: 'Sign Out',
           trailing: const Icon(Icons.chevron_right),
           onTap: () => context.dispatch(AuthEvent.logout()),
         ),
-        const TextRow(title: 'Security'),
+        const TextRow('Security'),
         ToggleRow(false,
           icon: Icons.fingerprint,
           title: 'Use fingerprint',

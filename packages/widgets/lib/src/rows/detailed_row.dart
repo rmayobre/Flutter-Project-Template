@@ -6,16 +6,16 @@ typedef OnTapCallback = void Function();
 class DetailedRow extends StatelessWidget {
   const DetailedRow({
     super.key,
-    required this.title,
-    this.subTitle,
+    required this.header,
+    this.subHeader,
     this.leading,
     this.trailing,
     this.onTap,
   });
 
-  final String title;
+  final String header;
 
-  final String? subTitle;
+  final String? subHeader;
 
   final Widget? leading;
 
@@ -55,17 +55,17 @@ class DetailedRow extends StatelessWidget {
   }
 
   Widget _buildText(BuildContext context) {
-    var sub = subTitle;
+    var sub = subHeader;
     if (sub != null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.labelLarge),
+          Text(header, style: Theme.of(context).textTheme.labelLarge),
           Text(sub, style: Theme.of(context).textTheme.labelSmall),
         ],
       );
     } else {
-      return Text(title, style: Theme.of(context).textTheme.labelLarge);
+      return Text(header, style: Theme.of(context).textTheme.labelLarge);
     }
   }
 }
