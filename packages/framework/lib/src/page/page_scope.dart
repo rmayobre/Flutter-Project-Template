@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:framework/src/storage/cache.dart';
 
+
+import '../device/device.dart';
 import '../logging/logger.dart';
 
 /// A scope that represents the available resources within a Page.
@@ -9,6 +11,7 @@ class PageScope extends InheritedWidget {
   const PageScope({
     super.key,
     required this.cache,
+    required this.device,
     required this.logger,
     required this.name,
     required this.path,
@@ -24,6 +27,8 @@ class PageScope extends InheritedWidget {
   /// Page's cached memory Check page's delegate for [StorageScope]. Use this
   /// to help share data between Widgets within the Page.
   final Cache cache;
+
+  final Device device;
 
   /// Page's logging interface.
   final Logger logger;

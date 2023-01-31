@@ -40,12 +40,6 @@ void runProductionApp() async {
         title: 'Template Application',
         darkTheme: darkThemeData,
         theme: lightThemeData,
-        themeModeListenable: themeService.model,
-        onDispose: () async {
-          // Make sure to close the dispatcher and all services.
-          await dispatcher.close();
-          await Future.wait(services.map((service) => service.close()));
-        },
       ),
     ),
   );
@@ -81,12 +75,6 @@ void runOfflineApp() {
         title: 'Template Application',
         darkTheme: darkThemeData,
         theme: lightThemeData,
-        themeModeListenable: themeService.model,
-        onDispose: () async {
-          // Make sure to close the dispatcher and all services.
-          await dispatcher.close();
-          await Future.wait(services.map((service) => service.close()));
-        },
       ),
     ),
   );
