@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:framework/events.dart';
+import 'package:framework/dispatcher.dart';
 
 class ToolboxEventDispatcher implements EventDispatcher {
   final _eventController = StreamController<Object>.broadcast();

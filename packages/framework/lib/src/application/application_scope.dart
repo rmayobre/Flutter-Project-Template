@@ -26,7 +26,7 @@ class ApplicationScope extends InheritedWidget {
     required this.dispatcher,
     required this.persistent,
     required this.routeHandler,
-    required List<Service<dynamic, dynamic>> services,
+    required this.services,
     required super.child,
   }) {
     for (var service in services) {
@@ -52,6 +52,7 @@ class ApplicationScope extends InheritedWidget {
   final LogConsole console;
   final PersistentCache persistent;
   final RouteHandler routeHandler;
+  final List<Service<dynamic, dynamic>> services;
 
   //
   // Repositories

@@ -12,9 +12,11 @@ abstract class Service<E, M> implements Repository<M> {
 
   /// Services have access to the application's EventDispatcher.
   /// This allows services to communicate between each other.
+  @protected
   final EventDispatcher dispatcher;
 
   /// Called when an event has been dispatched to this service.
+  @protected
   void onEvent(E event);
 
   /// Used to help clean up or close pending connections to the Service
