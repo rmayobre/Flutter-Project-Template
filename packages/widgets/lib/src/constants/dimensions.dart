@@ -2,6 +2,8 @@
 // Supported dimensions within the application.
 //
 
+const double d0 = 0.0;
+const double d1 = 1.0;
 const double d2 = 2.0;
 const double d4 = 4.0;
 const double d6 = 6.0;
