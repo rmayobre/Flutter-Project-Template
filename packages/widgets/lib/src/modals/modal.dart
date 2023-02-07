@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screen.dart';
+import '../device.dart';
 
 /// A [Widget] designed to prevent interaction with the rest of the screen while
 /// this [Widget] is being displayed on screen. This is typically paired with a
@@ -14,8 +14,8 @@ abstract class Modal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screen = Screen.from(context);
-    switch(screen.type) {
+    var device = Device.from(context);
+    switch(device.type) {
       case ScreenType.large:
         return Dialog(
           child: buildModalLayout(context),

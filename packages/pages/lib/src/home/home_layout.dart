@@ -24,54 +24,46 @@ class HomeLayout extends StatelessWidget {
   final Widget child;
 
   /// Supported destinations for home layout.
-  static const _homeDestinations = [
-    NavigationItem(
+  static final _homeDestinations = [
+    Destination(
       label: OverviewPage.name,
-      icon: Icon(Icons.home_outlined),
-      selectedIcon: Icon(Icons.home),
+      icon: const Icon(Icons.home_outlined),
+      selectedIcon: const Icon(Icons.home),
+      onSelected: (context) => context.to(OverviewPage.name),
     ),
-    NavigationItem(
+    Destination(
       label: SearchPage.name,
-      icon: Icon(Icons.search_outlined),
-      selectedIcon: Icon(Icons.search),
+      icon: const Icon(Icons.search_outlined),
+      selectedIcon: const Icon(Icons.search),
+      onSelected: (context) => context.to(SearchPage.name),
     ),
-    NavigationItem(
+    Destination(
       label: AccountPage.name,
-      icon: Icon(Icons.account_circle_outlined),
-      selectedIcon: Icon(Icons.account_circle),
+      icon: const Icon(Icons.account_circle_outlined),
+      selectedIcon: const Icon(Icons.account_circle),
+      onSelected: (context) => context.to(AccountPage.name),
     ),
-    NavigationItem(
+    Destination(
       label: SettingsPage.name,
-      icon: Icon(Icons.settings_outlined),
-      selectedIcon: Icon(Icons.settings),
+      icon: const Icon(Icons.settings_outlined),
+      selectedIcon: const Icon(Icons.settings),
+      onSelected: (context) => context.to(SettingsPage.name),
     ),
   ];
-
-  /// Handles navigation for each page.
-  static void _onNavigate(BuildContext context, int index) {
-    switch (index) {
-      case 1:
-        return context.to(SearchPage.name);
-      case 2:
-        return context.to(AccountPage.name);
-      case 3:
-        return context.to(SettingsPage.name);
-      default:
-        return context.to(OverviewPage.name);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ResponsiveScaffold(
-        currentIndex: context.currentIndex,
-        onIndexChanged: (index) => _onNavigate(context, index),
+        title: context.pageName,
+        enableAppBar: true,
+        navBarLimit: 4,
+        navRailLimit: 4,
+        selectedIndex: context.currentIndex,
         destinations: _homeDestinations,
-        appBar: AppBar(
-          title: Center(child: Text(context.pageName)),
-        ),
-        fab: FloatingActionButton(
+        fabConfig: FabConfiguration(
+          icon: const Icon(Icons.change_circle),
+          label: Text("Change Theme", style: Theme.of(context).textTheme.labelMedium),
           tooltip: "Change Theme",
           onPressed: () {
             var themeMode = context.value<ThemeMode>().value;
@@ -83,9 +75,8 @@ class HomeLayout extends StatelessWidget {
               ),
             );
           },
-          child: const Icon(Icons.change_circle),
         ),
-        child: child,
+        body: child,
       ),
     );
   }

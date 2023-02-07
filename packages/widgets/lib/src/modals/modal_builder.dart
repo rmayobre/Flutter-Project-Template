@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:widgets/constants.dart';
 
-import '../screen.dart';
+import '../device.dart';
 import 'modal.dart';
 
 const int _defaultDialogOffset = 600;
@@ -37,15 +37,15 @@ Future<T?> showModal<T>({
   int dialogWidthOffset = _defaultDialogOffset,
   ShapeBorder bottomSheetShape = _defaultBottomSheetShape,
 }) {
-  var screen = Screen.from(context);
-  switch(screen.type) {
+  var device = Device.from(context);
+  switch(device.type) {
     case ScreenType.large:
       return showDialog(
         context: context,
         builder: (context) => Dialog(
           child: SizedBox(
-            height: screen.size.height - dialogHeightOffset,
-            width: screen.size.width - dialogWidthOffset,
+            height: device.size.height - dialogHeightOffset,
+            width: device.size.width - dialogWidthOffset,
             child: builder(context),
           ),
         ),
