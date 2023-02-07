@@ -101,7 +101,7 @@ extension on SinglePage {
     var pageWidget = builder(context);
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
-      cache: const ToolboxCache(),
+      cache: ToolboxCache(),
       name: name,
       path: state.location,
       pathParams: state.params,
@@ -147,7 +147,7 @@ extension on LayoutPage {
     var pageName = state.subloc;
     var pageWidget = builder(context, child);
     return PageScope(
-      cache: const ToolboxCache(),
+      cache: ToolboxCache(),
       name: pageName,
       path: state.location,
       pathParams: state.params,
@@ -179,7 +179,7 @@ extension on ErrorPage {
     var pageWidget = builder(context, state.error);
     context.app.analytics.setPage(name, pageWidget.runtimeType.toString());
     return PageScope(
-      cache: const ToolboxCache(),
+      cache: ToolboxCache(),
       name: name,
       path: state.location,
       pathParams: state.params,

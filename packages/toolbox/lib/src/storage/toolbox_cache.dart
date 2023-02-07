@@ -4,9 +4,9 @@ import 'package:framework/storage.dart';
 /// data as cached memory.
 class ToolboxCache implements Cache {
 
-  final Map<String, Object> _map;
+  ToolboxCache({Map<String, Object>? map}) : _map = map ?? {};
 
-  const ToolboxCache({Map<String, Object>? map}) : _map = map ?? const {};
+  final Map<String, Object> _map;
 
   @override
   void write<T extends Object>({required String key, required T value}) {

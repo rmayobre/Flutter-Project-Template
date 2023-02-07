@@ -4,6 +4,7 @@ import 'package:framework/src/storage/cache.dart';
 import '../logging/logger.dart';
 
 /// A scope that represents the available resources within a Page.
+@immutable
 class PageScope extends InheritedWidget {
 
   const PageScope({

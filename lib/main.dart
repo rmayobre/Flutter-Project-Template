@@ -19,7 +19,7 @@ void runProductionApp() async {
   runApp(
     ApplicationScope(
       analytics: ToolboxAnalytics(),
-      cache: const ToolboxCache(),
+      cache: ToolboxCache(),
       console: ToolboxConsole(),
       dispatcher: dispatcher,
       persistent: persistentCache,
@@ -53,7 +53,7 @@ void runOfflineApp() {
   runApp(
     ApplicationScope(
       analytics: Analytics.offline(),
-      cache: const ToolboxCache(),
+      cache: ToolboxCache(),
       console: ToolboxConsole(),
       dispatcher: dispatcher,
       persistent: PersistentCache.noStorage(),

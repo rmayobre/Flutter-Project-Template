@@ -15,6 +15,7 @@ import '../storage/persistent_cache.dart';
 /// ever need. This scope does not change until the app is killed and reloaded.
 /// This is also the root of the application (comes before [MaterialApp] or even
 /// [WidgetsApp]).
+@immutable
 class ApplicationScope extends InheritedWidget {
 
   ApplicationScope({
