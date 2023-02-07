@@ -48,7 +48,11 @@ void runProductionApp() async {
 /// used for UI development/testing.
 void runOfflineApp() {
   var dispatcher = ToolboxEventDispatcher();
-  var authService = OfflineAuthService(dispatcher, authDelay: 3, sessionId: '123'); // comment out "sessionId" to show login screen.
+  var authService = OfflineAuthService(
+    dispatcher,
+    authDelay: 3,
+    sessionId: '123',
+  ); // comment out "sessionId" to show login screen.
   var themeService = ThemeService(dispatcher, initialMode: initialThemeMode);
   runApp(
     ApplicationScope(
@@ -80,9 +84,10 @@ void runOfflineApp() {
 
 /// How redirects work for the application.
 String? onRedirect(
-    BuildContext context,
-    StateType authState,
-    RouteInfo info,) {
+  BuildContext context,
+  StateType authState,
+  RouteInfo info,
+) {
   if (authState == StateType.empty || authState == StateType.failed) {
     if (info.path != loginPath) {
       return loginPath;
