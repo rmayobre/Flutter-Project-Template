@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:widgets/constants.dart';
 
 import '../../device.dart';
+import '../../window.dart';
 
 part 'navigation_bar_scaffold.dart';
 part 'navigation_drawer_scaffold.dart';
@@ -84,8 +85,8 @@ class ResponsiveScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var device = Device.from(context);
-    switch(device.type) {
-      case ScreenType.small:
+    switch(device.window) {
+      case Window.compact:
         return _NavigationBarScaffold(
           appBarTitle: enableAppBar ? title : null,
           navBarLimit: navBarLimit,
@@ -99,7 +100,7 @@ class ResponsiveScaffold extends StatelessWidget {
               : destinations,
           body: body,
         );
-      case ScreenType.medium:
+      case Window.medium:
         return _NavigationRailScaffold(
           navRailLimit: navRailLimit,
           selectedIndex: selectedIndex,
@@ -112,7 +113,7 @@ class ResponsiveScaffold extends StatelessWidget {
               : const [],
           body: body,
         );
-      case ScreenType.large:
+      case Window.expanded:
         return _NavigationDrawerScaffold(
           selectedIndex: selectedIndex,
           destinations: destinations,
@@ -121,7 +122,6 @@ class ResponsiveScaffold extends StatelessWidget {
         );
     }
   }
-
 }
 
 /// TODO build a separate drawer for each scaffold.
