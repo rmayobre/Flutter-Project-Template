@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:framework/main.dart';
 import 'package:pages/pages.dart';
-import 'package:services/firebase.dart';
-import 'package:services/offline.dart';
+import 'package:repositories/firebase.dart';
+import 'package:repositories/offline.dart';
 import 'package:toolbox/tools.dart';
 import 'package:theme/theme.dart';
 
@@ -16,11 +16,6 @@ void runProductionApp() async {
   var authService = FirebaseAuthService(dispatcher);
   var persistentCache = await ToolboxPersistentCache.build();
   var themeService = ThemeService(dispatcher, initialMode: initialThemeMode);
-  List<Service<dynamic, dynamic>> services = [
-    authService,
-    ContentGenerator(dispatcher, delay: 3),
-    themeService,
-  ];
   runApp(
     ApplicationScope(
       analytics: ToolboxAnalytics(),
@@ -35,7 +30,11 @@ void runProductionApp() async {
         errorPage: ErrorPageWidget.delegate,
         pages: pageRegistry,
       ),
-      services: services,
+      repositories: [
+        authService,
+        ContentGenerator(dispatcher, delay: 3),
+        themeService,
+      ],
       child: Application(
         title: 'Template Application',
         darkTheme: darkThemeData,
@@ -51,11 +50,6 @@ void runOfflineApp() {
   var dispatcher = ToolboxEventDispatcher();
   var authService = OfflineAuthService(dispatcher, authDelay: 3, sessionId: '123'); // comment out "sessionId" to show login screen.
   var themeService = ThemeService(dispatcher, initialMode: initialThemeMode);
-  List<Service<dynamic, dynamic>> services = [
-    authService,
-    ContentGenerator(dispatcher, delay: 3),
-    themeService,
-  ];
   runApp(
     ApplicationScope(
       analytics: Analytics.offline(),
@@ -70,7 +64,11 @@ void runOfflineApp() {
         errorPage: ErrorPageWidget.delegate,
         pages: pageRegistry,
       ),
-      services: services,
+      repositories: [
+        authService,
+        ContentGenerator(dispatcher, delay: 3),
+        themeService,
+      ],
       child: Application(
         title: 'Template Application',
         darkTheme: darkThemeData,

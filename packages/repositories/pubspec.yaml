@@ -1,5 +1,5 @@
-name: services
-description: A collection of services to be used within the application.
+name: repositories
+description: A collection of repositories to be used within the application.
 publish_to: 'none'
 
 environment:
@@ -20,3 +20,4 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+

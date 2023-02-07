@@ -1,34 +1,68 @@
 import 'package:flutter/foundation.dart';
 
+import '../../dispatcher.dart';
 import 'state_listenable.dart';
 
-abstract class Repository<T> {
+abstract class Repository<E, M> {
+  
+  Repository(this.dispatcher) {
+    dispatcher.subscribe<E>(onEvent);
+  }
 
-  T get model;
+  M get model;
 
-  Type get modelType => T;
+  Type get modelType;
+
+  /// Services have access to the application's EventDispatcher.
+  /// This allows services to communicate between each other.
+  @protected
+  final EventDispatcher dispatcher;
+
+  /// Called when an event has been dispatched to this service.
+  @protected
+  void onEvent(E event);
 }
 
-abstract class FutureRepository<T> implements Repository<Future<T>> {
+abstract class FutureRepository<E, M> extends Repository<E, Future<M>> {
+  FutureRepository(super.dispatcher);
 
   @override
-  Type get modelType => T;
+  Type get modelType => M;
+
+  /// Used to help clean up or close pending connections to the Service
+  /// before the application shuts down.
+  Future<void> close();
 }
 
-abstract class ListenableRepository<T> implements Repository<ValueListenable<T>> {
+abstract class ListenableRepository<E, M> extends Repository<E, ValueListenable<M>> {
+  ListenableRepository(super.dispatcher);
 
   @override
-  Type get modelType => T;
+  Type get modelType => M;
+
+  /// Used to help clean up or close pending connections to the Service
+  /// before the application shuts down.
+  Future<void> close();
 }
 
-abstract class StreamRepository<T> implements Repository<Stream<T>> {
-
+abstract class StreamRepository<E, M> extends Repository<E, Stream<M>> {
+  StreamRepository(super.dispatcher);
+  
   @override
-  Type get modelType => T;
+  Type get modelType => M;
+
+  /// Used to help clean up or close pending connections to the Service
+  /// before the application shuts down.
+  Future<void> close();
 }
 
-abstract class StatefulRepository<T> implements Repository<StateListenable<T>> {
+abstract class StatefulRepository<E, M> extends Repository<E, StateListenable<M>> {
+  StatefulRepository(super.dispatcher);
 
   @override
-  Type get modelType => T;
+  Type get modelType => M;
+
+  /// Used to help clean up or close pending connections to the Service
+  /// before the application shuts down.
+  Future<void> close();
 }

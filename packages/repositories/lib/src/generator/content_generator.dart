@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:framework/services.dart';
+import 'package:framework/repositories.dart';
 import 'package:models/content.dart';
 
-class ContentGenerator extends StreamService<ContentEvent, ContentBulk> {
-
+class ContentGenerator extends StreamRepository<ContentEvent, ContentBulk> {
   ContentGenerator(super.dispatcher, {this.delay = 0});
 
   /// Repository's response delay in seconds.
   final int delay;
 
-  final StreamController<ContentBulk> _modelController = StreamController.broadcast();
+  final StreamController<ContentBulk> _modelController =
+      StreamController.broadcast();
 
   ContentBulk? cache;
 
@@ -50,7 +50,7 @@ class ContentGenerator extends StreamService<ContentEvent, ContentBulk> {
       _modelController.add(content);
     }
   }
-  
+
   Future<ContentBulk> _generateBulkContent(int size) {
     return Future.delayed(Duration(seconds: delay), () {
       return ContentBulk(

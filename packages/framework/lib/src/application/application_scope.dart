@@ -8,7 +8,6 @@ import '../page/page_scope.dart';
 import '../repositories/repository.dart';
 import '../repositories/state_listenable.dart';
 import '../routing/route_handler.dart';
-import '../services/service.dart';
 import '../storage/cache.dart';
 import '../storage/persistent_cache.dart';
 
@@ -26,15 +25,14 @@ class ApplicationScope extends InheritedWidget {
     required this.dispatcher,
     required this.persistent,
     required this.routeHandler,
-    required this.services,
+    required List<Repository<dynamic, dynamic>> repositories,
     required super.child,
   }) {
-    for (var service in services) {
-      Repository<dynamic> repo = service;
-      if (repo is FutureRepository<dynamic>) { _futures[repo.modelType] = repo; }
-      if (repo is StatefulRepository<dynamic>) { _states[repo.modelType] = repo; }
-      if (repo is StreamRepository<dynamic>) { _streams[repo.modelType] = repo; }
-      if (repo is ListenableRepository<dynamic>) { _values[repo.modelType] = repo; }
+    for (var repo in repositories) {
+      if (repo is FutureRepository<dynamic, dynamic>) { _futures[repo.modelType] = repo; }
+      if (repo is StatefulRepository<dynamic, dynamic>) { _states[repo.modelType] = repo; }
+      if (repo is StreamRepository<dynamic, dynamic>) { _streams[repo.modelType] = repo; }
+      if (repo is ListenableRepository<dynamic, dynamic>) { _values[repo.modelType] = repo; }
     }
   }
 
@@ -52,16 +50,22 @@ class ApplicationScope extends InheritedWidget {
   final LogConsole console;
   final PersistentCache persistent;
   final RouteHandler routeHandler;
-  final List<Service<dynamic, dynamic>> services;
 
   //
   // Repositories
   //
 
-  final Map<Type, FutureRepository<dynamic>> _futures = {};
-  final Map<Type, StatefulRepository<dynamic>> _states = {};
-  final Map<Type, StreamRepository<dynamic>> _streams = {};
-  final Map<Type, ListenableRepository<dynamic>> _values = {};
+  final Map<Type, FutureRepository<dynamic, dynamic>> _futures = {};
+  final Map<Type, StatefulRepository<dynamic, dynamic>> _states = {};
+  final Map<Type, StreamRepository<dynamic, dynamic>> _streams = {};
+  final Map<Type, ListenableRepository<dynamic, dynamic>> _values = {};
+
+  Future closeRepos() async {
+    await Future.wait(_futures.values.map((repo) => repo.close()));
+    await Future.wait(_states.values.map((repo) => repo.close()));
+    await Future.wait(_streams.values.map((repo) => repo.close()));
+    await Future.wait(_values.values.map((repo) => repo.close()));
+  }
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;

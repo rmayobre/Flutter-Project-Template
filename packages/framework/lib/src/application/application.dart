@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:framework/main.dart';
 
-import '../event/event_dispatcher.dart';
-import '../services/service.dart';
 import 'application_scope.dart';
 
 /// Depends on [ApplicationScope] to be built first.
@@ -27,14 +26,14 @@ class _AppState extends State<Application> {
 
   @override
   void dispose() {
-    _closeServices(context.app.services, context.app.dispatcher);
+    _closeServices(context.app);
     super.dispose();
   }
 
   /// close services register to the application's scope.
-  void _closeServices(List<Service<dynamic, dynamic>> services, EventDispatcher dispatcher) async {
-    await dispatcher.close();
-    await Future.wait(services.map((service) => service.close()));
+  void _closeServices(ApplicationScope scope) async {
+    await scope.dispatcher.close();
+    await scope.closeRepos();
   }
 
   @override

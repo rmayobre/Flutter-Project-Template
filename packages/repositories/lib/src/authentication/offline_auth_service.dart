@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:framework/services.dart';
+import 'package:framework/repositories.dart';
 import 'package:models/authentication.dart';
 
-class OfflineAuthService extends StatefulService<AuthEvent, Session> {
-
-  OfflineAuthService(super.dispatcher, {
+class OfflineAuthService extends StatefulRepository<AuthEvent, Session> {
+  OfflineAuthService(
+    super.dispatcher, {
     int authDelay = 0,
     String? sessionId,
-  }) : _authDelay = authDelay,
+  })  : _authDelay = authDelay,
         model = sessionId != null
             ? StateNotifier.loaded(Session(id: sessionId))
             : StateNotifier.empty();
@@ -28,7 +28,7 @@ class OfflineAuthService extends StatefulService<AuthEvent, Session> {
       _logout();
     }
   }
-  
+
   @override
   Future close() {
     return Future.delayed(Duration(seconds: _authDelay), () {
@@ -38,7 +38,8 @@ class OfflineAuthService extends StatefulService<AuthEvent, Session> {
 
   Future _login({required String email, required String password}) async {
     if (email.isEmpty || password.isEmpty) {
-      model.failed(const AuthenticationException.message('Email or password was null.'));
+      model.failed(
+          const AuthenticationException.message('Email or password was null.'));
       return;
     }
     model.loading();

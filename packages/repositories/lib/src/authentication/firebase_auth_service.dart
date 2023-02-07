@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:framework/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:framework/repositories.dart';
 import 'package:models/authentication.dart';
 
-class FirebaseAuthService extends StatefulService<AuthEvent, Session> {
-
+class FirebaseAuthService extends StatefulRepository<AuthEvent, Session> {
   FirebaseAuthService(super.dispatcher) : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onStateChange);
   }
@@ -51,7 +50,8 @@ class FirebaseAuthService extends StatefulService<AuthEvent, Session> {
     required String password,
   }) async {
     if (email.isEmpty || password.isEmpty) {
-      model.failed(const AuthenticationException.message('Username or password is empty.'));
+      model.failed(const AuthenticationException.message(
+          'Username or password is empty.'));
       return;
     }
     model.loading();
