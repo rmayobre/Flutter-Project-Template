@@ -1,7 +1,0 @@
-targets:
-  $default:
-    builders:
-      builders|applicationBuilder:
-        enabled: True
-        generate_for:
-          - lib/src/*
