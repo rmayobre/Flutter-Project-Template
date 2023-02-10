@@ -41,7 +41,9 @@ as the value.
 
 ### Theme
 
-The application's theme is declared in this package.
+The application's theme is declared in this package. You will put all theme classes inside here, and then put them into
+the ThemeData class. The ThemeData will be consumed by the application inside of the `main` function, while constructing
+the application.
 
 ### Toolbox
 
