@@ -51,7 +51,7 @@ void runOfflineApp() {
   var authService = OfflineAuthService(
     dispatcher,
     authDelay: 3,
-    sessionId: '123',
+    // sessionId: '123',
   ); // comment out "sessionId" to show login screen.
   var themeService = ThemeService(dispatcher, initialMode: initialThemeMode);
   runApp(
