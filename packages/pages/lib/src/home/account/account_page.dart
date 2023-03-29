@@ -16,22 +16,19 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return ListView(
       padding: const EdgeInsets.symmetric(
         vertical: 16.0,
         horizontal: 32.0,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          _AccountProfilePicture(),
-          _AccountDetailsRow(
-            name: 'John Doe', 
-            profession: 'Software Engineer',
-          ),
-          _AboutDescriptionRow(),
-        ],
-      ),
+      children: const [
+        _AccountProfilePicture(),
+        _AccountDetailsRow(
+          name: 'John Doe',
+          profession: 'Software Engineer',
+        ),
+        _AboutDescriptionRow(),
+      ],
     );
   }
 }
@@ -57,12 +54,12 @@ class _AccountProfilePicture extends StatelessWidget {
 class _AccountDetailsRow extends StatelessWidget {
 
   const _AccountDetailsRow({
-    required this.name, 
+    required this.name,
     required this.profession,
   });
-  
+
   final String name;
-  
+
   final String profession;
 
   @override

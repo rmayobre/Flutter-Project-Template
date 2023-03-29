@@ -53,31 +53,29 @@ class HomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ResponsiveScaffold(
-        title: context.pageName,
-        enableAppBar: true,
-        navBarLimit: 4,
-        navRailLimit: 4,
-        selectedIndex: context.currentIndex,
-        destinations: _homeDestinations,
-        fabConfig: FabConfiguration(
-          icon: const Icon(Icons.change_circle),
-          label: Text("Change Theme", style: Theme.of(context).textTheme.labelMedium),
-          tooltip: "Change Theme",
-          onPressed: () {
-            var themeMode = context.value<ThemeMode>().value;
-            context.dispatch(
-              ThemeEvent.change(
-                mode: themeMode != ThemeMode.dark
-                    ? ThemeMode.dark
-                    : ThemeMode.light,
-              ),
-            );
-          },
-        ),
-        body: child,
+    return ResponsiveScaffold(
+      title: context.pageName,
+      enableAppBar: true,
+      navBarLimit: 4,
+      navRailLimit: 4,
+      selectedIndex: context.currentIndex,
+      destinations: _homeDestinations,
+      fabConfig: FabConfiguration(
+        icon: const Icon(Icons.change_circle),
+        label: Text("Change Theme", style: Theme.of(context).textTheme.labelMedium),
+        tooltip: "Change Theme",
+        onPressed: () {
+          var themeMode = context.value<ThemeMode>().value;
+          context.dispatch(
+            ThemeEvent.change(
+              mode: themeMode != ThemeMode.dark
+                  ? ThemeMode.dark
+                  : ThemeMode.light,
+            ),
+          );
+        },
       ),
+      body: child,
     );
   }
 }

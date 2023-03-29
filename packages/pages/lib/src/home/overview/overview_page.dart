@@ -16,38 +16,39 @@ class OverviewPage extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<ContentBulk> snapshot) {
         var contentBulk = snapshot.data?.bulk;
         if (contentBulk != null) {
-          return ListDetail(
-            panel: Card(
-              elevation: 0,
-              color: Theme.of(context).colorScheme.surfaceVariant,
-              child: Container(
-                alignment: Alignment.center,
-                child: const Text('Panel Area'),
-              ),
-            ),
-            listItems: contentBulk.map((content) {
-              return TextContentCard.filled(
-                body: content.body,
-                title: content.title,
-              );
-            }).toList(),
-          );
-          // return ListView.builder(
-          //   itemCount: contentBulk.length,
-          //   itemBuilder: (BuildContext context, int index) {
-          //     var content = contentBulk[index];
-          //     return TextContentCard.filled(
-          //       body: content.body,
-          //       title: content.title,
-          //     );
-          //   },
-          // );
+          return _OverviewPageContent(contentBulk: contentBulk);
         } else {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
       },
+    );
+  }
+}
+
+class _OverviewPageContent extends StatelessWidget {
+  const _OverviewPageContent({
+    required this.contentBulk,
+  });
+
+  final List<Content> contentBulk;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListDetail(
+      panel: FilledCard(
+        child:  Container(
+          alignment: Alignment.center,
+          child: const Text('Panel Area'),
+        ),
+      ),
+      listItems: contentBulk.map((content) {
+        return TextContentCard.filled(
+          body: content.body,
+          title: content.title,
+        );
+      }).toList(),
     );
   }
 }
